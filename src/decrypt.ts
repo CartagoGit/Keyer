@@ -1,12 +1,12 @@
 import { scryptSync, createDecipheriv } from 'crypto';
 
 export const decrypt = (props: {
-	textToDecrypt: string;
+	toDecrypt: string;
 	secretSalt: string;
 	showLog?: boolean;
 }): string => {
-	const { textToDecrypt, secretSalt, showLog = true } = props;
-	const [iv, encrypted] = textToDecrypt.split(':');
+	const { toDecrypt, secretSalt, showLog = true } = props;
+	const [iv, encrypted] = toDecrypt.split(':');
 	const key = scryptSync(secretSalt, 'sal', 32);
 	const decipher = createDecipheriv(
 		'aes-256-cbc',
@@ -23,17 +23,18 @@ export const decrypt = (props: {
 };
 
 export const decryptAny = (props: {
-	anyToDecrypt: string;
+	toDecrypt: string;
 	secretSalt: string;
+	showLog?: boolean;
 }): any => {
-	const { anyToDecrypt, secretSalt } = props;
+	const { toDecrypt, secretSalt, showLog = true } = props;
 	const result = JSON.parse(
 		decrypt({
-			textToDecrypt: anyToDecrypt,
+			toDecrypt,
 			secretSalt,
 			showLog: false,
 		})
 	);
-	console.log('Object decrypted: ', result);
+	if (showLog) console.log('Any variable decrypted: ', result);
 	return result;
 };
