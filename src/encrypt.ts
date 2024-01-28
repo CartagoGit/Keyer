@@ -1,4 +1,4 @@
-import { createCipheriv, randomBytes, scryptSync } from 'crypto';
+import { createCipheriv, randomBytes, scryptSync } from 'node:crypto';
 
 export const encrypt = (props: {
 	toEncrypt: string;

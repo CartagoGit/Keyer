@@ -6,7 +6,18 @@ This app is just a library to encrypt and decrypt texts and any other variables 
 
 `npm i @cartago-git/keyer`
 
-## To use
+## To use command
+
+Just use the command `keyer`.
+
+As default: It will get the `.env` file from root and create a new folder `keyer` when encrypt with a file `encrypted-hash.txt`
+
+If you want change env or hash file just pass 'env-file' or 'envFile' for env. Or  'hash-file' 'hashFile' as arguments.
+
+Example: 
+`keyer --envFile='folder/.env' --hashFile='folder/hash.txt'`
+
+## To use methods
 
 For Example:
 

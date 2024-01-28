@@ -1,4 +1,4 @@
-import { scryptSync, createDecipheriv } from 'crypto';
+import { scryptSync, createDecipheriv } from 'node:crypto';
 
 export const decrypt = (props: {
 	toDecrypt: string;
