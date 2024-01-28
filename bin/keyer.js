@@ -1,4 +1,4 @@
 #!/usr/bin/env ts-node
-
+console.log('Keyer starting...');
 require('ts-node').register();
-require('./keyer.ts');
+require('../src/keyer.ts');
