@@ -1,12 +1,13 @@
 {
 	"name": "@cartago-git/keyer",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Secret encrypter for keys, api-keys and envs",
 	"main": "src/index.ts",
 	"scripts": {
 		"encrypt": "tsx src/encrypt.ts",
 		"decrypt": "tsx src/decrypt.ts",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"pack": "npm pack --pack-destination=./pack"
 	},
 	"keywords": [
 		"api",
@@ -18,7 +19,6 @@
 	"author": "Cartago",
 	"license": "MIT",
 	"dependencies": {
-		"crypto": "^1.0.1",
 		"tsx": "^4.7.0",
 		"yargs": "^17.7.2"
 	},
@@ -36,6 +36,6 @@
 	},
 	"homepage": "https://github.com/CartagoGit/Keyer#readme",
 	"bin": {
-		"keyer": "tsx ./src/keyer.ts"
+		"keyer": "tsx 'src/keyer.ts'"
 	}
 }
