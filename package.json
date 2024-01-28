@@ -9,7 +9,7 @@
 		"cli": "npx tsx src/keyer.ts --envfile='.env'",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"pack": "npm pack --pack-destination=./pack",
-		"create:cli" : "npx tsc",
+		"create:cli": "npx tsc",
 		"pack:online": "npm publish"
 	},
 	"keywords": [
@@ -24,6 +24,7 @@
 	"author": "Cartago",
 	"license": "MIT",
 	"dependencies": {
+		"commander": "^11.1.0",
 		"tsx": "^4.7.0",
 		"yargs": "^17.7.2"
 	},
@@ -34,7 +35,7 @@
 	},
 	"peerDependencies": {
 		"tsx": "^4.7.0"
-	 },
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/CartagoGit/Keyer.git"

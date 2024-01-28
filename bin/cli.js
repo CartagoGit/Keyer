@@ -30,8 +30,8 @@ const helpers_1 = require("yargs/helpers");
 const createCli = () => {
     const yargs = yargsPkg.default;
     console.log(yargs().argv);
-    return yargs((0, helpers_1.hideBin)(process.argv)).command('$0', // command name
-    'Keyer library CLI', // command description
+    return yargs((0, helpers_1.hideBin)(process.argv)).command('Command Cli: $0', // command name
+    'Keyer Kibrary CLI', // command description
     (yargs) => createCLiOptions(yargs), (argv) => {
         console.log('Keyer CLI', argv);
         if (argv.version)

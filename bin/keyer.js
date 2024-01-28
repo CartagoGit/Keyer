@@ -56,8 +56,8 @@ const keyerCommand = (props) => {
     });
 };
 const keyer = () => {
-    console.log('test dentro');
     const cli = (0, cli_1.createCli)();
     console.log('cli', cli);
 };
 exports.keyer = keyer;
+(0, exports.keyer)();

@@ -60,7 +60,9 @@ const keyerCommand = (props?: { envArg?: string; hashArg?: string }) => {
 };
 
 export const keyer = () => {
-	console.log('test dentro');
 	const cli = createCli();
 	console.log('cli', cli);
 };
+
+keyer();
+
