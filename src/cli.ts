@@ -1,8 +1,12 @@
 import { Command } from 'commander';
 import pkg from '../package.json';
 import { keyerCommand } from './keyer';
-import { keyserOptions, commands, ICommandProps, IOptionProps } from './cli-props';
-
+import {
+	keyserOptions,
+	commands,
+	ICommandProps,
+	IOptionProps,
+} from './cli-props';
 
 // Start CLI
 export const createCli = () => {
@@ -21,7 +25,13 @@ export const createCli = () => {
 	Object.values(commands).forEach((command) =>
 		createCommand({ commandProps: command, program })
 	);
-	console.log(program.parse(process.argv));
+	// console.log(program.parse(process.argv));
+	// console.log(program.parse());
+    program.parse()
+    const command = program.commands
+    console.log(program.args)
+    console.log(command);
+    // if(program.processedArgs)
 };
 
 const createCommand = (props: {

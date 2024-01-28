@@ -23,8 +23,8 @@ export interface IOptionProps {
 // Props
 export const defaultFiles = {
 	encryptRoute: '.env',
-	encryptedRoute: 'keyer/encrypted-hash.txt',
-	decryptedRoute: 'keyer/decrypted-envs.txt',
+	encryptedRoute: 'keyer/encrypted.txt',
+	decryptedRoute: 'keyer/decrypted.txt',
 };
 
 export const defaultOptions: Record<IKindDefaultOption, IOptionProps> = {
@@ -96,12 +96,12 @@ export const keyserOptions: Record<IKindKeyer, IOptionProps> = {
 export const commands: Record<IKindCommand, ICommandProps> = {
 	encrypt: {
 		command: 'encrypt',
-		description: 'Encrypt command cli',
+		description: 'encrypt command cli',
 		options: encryptOptions,
 	},
 	decrypt: {
 		command: 'decrypt',
-		description: 'Decrypt command cli',
+		description: 'decrypt command cli',
 		options: decryptOptions,
 	},
 };
