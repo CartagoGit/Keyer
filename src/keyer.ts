@@ -2,8 +2,10 @@ import { createInterface } from 'node:readline';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { decryptAny, encryptAny } from './index';
-import yargs from 'yargs/yargs';
+import * as yargsPkg from 'yargs';
 import { hideBin } from 'yargs/helpers';
+
+const yargs = yargsPkg.default;
 
 // Keyer CLI
 const createCli = () => {
