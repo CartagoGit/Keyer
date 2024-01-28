@@ -6,6 +6,7 @@
 	"scripts": {
 		"encrypt": "tsx src/encrypt.ts",
 		"decrypt": "tsx src/decrypt.ts",
+		"cli": "tsx src/keyer.ts --envfile='.env'",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"pack": "npm pack --pack-destination=./pack",
 		"pack:online": "tsc && npm publish"
@@ -15,7 +16,9 @@
 		"key",
 		"encrypt",
 		"crypto",
-		"decrypt"
+		"decrypt",
+		"keyer",
+		"Cartago"
 	],
 	"author": "Cartago",
 	"license": "MIT",

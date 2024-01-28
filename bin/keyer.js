@@ -29,45 +29,50 @@ const node_fs_1 = require("node:fs");
 const node_path_1 = require("node:path");
 const exports_1 = require("./exports");
 const yargsPkg = __importStar(require("yargs"));
-const helpers_1 = require("yargs/helpers");
 const yargs = yargsPkg.default;
+console.log(yargs.argv);
 // Keyer CLI
-const createCli = () => {
-    yargs((0, helpers_1.hideBin)(process.argv)).command('$0', 'Keyer library commands', (yargs) => {
-        return yargs
-            .version(false)
-            .option('env-file', {
-            alias: 'ef',
-            description: 'Route where is the file for encrypting',
-            type: 'string',
-        })
-            .option('hash-file', {
-            alias: 'hf',
-            description: 'Route for the new hash file',
-            type: 'string',
-        })
-            .option('version', {
-            alias: 'v',
-            description: 'Library version',
-            type: 'boolean',
-        })
-            .option('help', {
-            alias: 'h',
-            description: 'Library help',
-            type: 'boolean',
-        });
-    }, (argv) => {
-        if (argv.version)
-            console.log('Keyer version: ' + require('../package.json').version);
-        else if (argv.help)
-            console.log('Keyer help:');
-        else
-            script({ envArg: argv.envFile, hashArg: argv.hashFile });
-    }).argv;
-};
+// const createCli = () => {
+// 	yargs(hideBin(process.argv)).command(
+// 		'$0',
+// 		'Keyer library commands',
+// 		(yargs) => {
+// 			return yargs
+// 				.version(false)
+// 				.option('env-file', {
+// 					alias: 'ef',
+// 					description: 'Route where is the file for encrypting',
+// 					type: 'string',
+// 				})
+// 				.option('hash-file', {
+// 					alias: 'hf',
+// 					description: 'Route for the new hash file',
+// 					type: 'string',
+// 				})
+// 				.option('version', {
+// 					alias: 'v',
+// 					description: 'Library version',
+// 					type: 'boolean',
+// 				})
+// 				.option('help', {
+// 					alias: 'h',
+// 					description: 'Library help',
+// 					type: 'boolean',
+// 				});
+// 		},
+// 		(argv) => {
+// 			if (argv.version)
+// 				console.log(
+// 					'Keyer version: ' + require('../package.json').version
+// 				);
+// 			else if (argv.help) console.log('Keyer help:');
+// 			else script({ envArg: argv.envFile, hashArg: argv.hashFile });
+// 		}
+// 	).argv;
+// };
 // Keyer script
 const script = (props) => {
-    const { envArg, hashArg } = props;
+    const { envArg, hashArg } = props || {};
     const rl = (0, node_readline_1.createInterface)({
         input: process.stdin,
         output: process.stdout,
@@ -114,4 +119,5 @@ const script = (props) => {
         });
     });
 };
-createCli();
+// createCli();
+script();
