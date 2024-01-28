@@ -3,13 +3,13 @@
 	"version": "1.0.16",
 	"description": "Secret encrypter for keys, api-keys and envs",
 	"main": "src/exports.ts",
-	"type": "module",
 	"scripts": {
 		"encrypt": "npx tsx src/encrypt.ts",
 		"decrypt": "npx tsx src/decrypt.ts",
 		"cli": "npx tsx src/keyer.ts --envfile='.env'",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"pack": "npm pack --pack-destination=./pack",
+		"create:cli" : "npx tsc",
 		"pack:online": "npm publish"
 	},
 	"keywords": [

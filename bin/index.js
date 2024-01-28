@@ -1,7 +1,8 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env node
 
 console.log('Init -> Keyer Cli');
-import { keyer } from '../src/exports';
+// import { keyer } from './keyer/exports.js';
 
-console.log('Init -> ts')
+// import { keyer } from '../src/exports';
+const { keyer } = require('./keyer/exports');
 keyer();

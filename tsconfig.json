@@ -1,14 +1,19 @@
 {
 	"compilerOptions": {
-		"target": "ES2022",
-		"module": "ES2022",
+		//* -> For Tsx
+		// "target": "ES2022",
+		// "module": "ES2022",
+		// "moduleResolution": "Bundler",
+		//* -> For Tsc creating js
+		"module": "CommonJS",
+		"target": "ESNext",
+		"moduleResolution": "Node",
 		"rootDir": "./src",
 		"outDir": "./bin/keyer",
-		"moduleResolution": "Bundler",
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,
 		"skipDefaultLibCheck": true,
-		"skipLibCheck": true,
+		"skipLibCheck": true
 	}
 }
