@@ -1,6 +1,6 @@
 {
 	"name": "@cartago-git/keyer",
-	"version": "1.0.9",
+	"version": "1.0.11",
 	"description": "Secret encrypter for keys, api-keys and envs",
 	"main": "src/index.ts",
 	"scripts": {
@@ -8,7 +8,7 @@
 		"decrypt": "tsx src/decrypt.ts",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"pack": "npm pack --pack-destination=./pack",
-		"pack:online": "tsc && npm publish"
+		"pack:online": "npm publish"
 	},
 	"keywords": [
 		"api",
@@ -26,6 +26,7 @@
 	"devDependencies": {
 		"@types/node": "^20.11.8",
 		"@types/yargs": "^17.0.32",
+		"ts-node": "^10.9.2",
 		"typescript": "^5.3.3"
 	},
 	"repository": {
