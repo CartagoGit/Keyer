@@ -9,7 +9,7 @@
 		"target": "ESNext",
 		"moduleResolution": "Node",
 		"rootDir": "./src",
-		"outDir": "./bin/keyer",
+		"outDir": "./bin",
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,

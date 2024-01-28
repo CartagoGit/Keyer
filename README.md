@@ -4,24 +4,32 @@ This app is just a library to encrypt and decrypt texts and any other variables 
 
 ## To install
 
-`npm i @cartago-git/keyer`
+`npm i keyer`
 
 ## CLI Basic
 
-* `keyer --version` or `-v`
+* `keyer` Cli to encrypt\descrypt automatic
 
-* `keyer --help` or `-h`
+* `keyer --version` or `-v` Library version
 
-## To use command
+* `keyer --help` or `-h` Library CLI help
+
+* `keyer --encrypt='folder/file'` Encrypter
+
+* `keyer --decrypt='folder/file'` Decrypter
+
+## To use command keyer
 
 Just use the command `keyer` to autoscript.
 
 > As default: It will get the `.env` file from root and create a new folder `keyer` when encrypt with a file `encrypted-hash.txt`
 
-If you want change env or hash file just pass `--env-file` or `-ef` for file to encrypt; `--hash-file` or `-hf` for hash as arguments.
+It accepts 
+
+If you want change env or hash file just pass `--encryptFile` or `-ef` for file to encrypt; `--decryptFile` or `-df` for hash as arguments.
 
 Example:
-`keyer --env-file='folder/.env' --hash-file='folder/hash.txt'`
+`keyer --encryptFile='folder/.env' --decryptFile='folder/hash.txt'`
 
 ## To use methods
 
