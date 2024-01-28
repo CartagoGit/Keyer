@@ -4,9 +4,10 @@ import { decryptAny, encryptAny } from './index';
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 
-const argv = yargs(hideBin(process.argv)).command(
+// Keyer CLI
+yargs(hideBin(process.argv)).command(
 	'$0',
-	'Keyer command',
+	'Keyer library commands',
 	(yargs) => {
 		return yargs
 			.option('env-file', {
@@ -34,36 +35,30 @@ const argv = yargs(hideBin(process.argv)).command(
 		if (argv.version) {
 			console.log('Version: ' + process.env.npm_package_version);
 		} else if (argv.help) {
-			console.log('Ayuda de la biblioteca...');
+			console.log('Keyer Library Help');
+			console.log('Commands:');
+			console.log('  -v, --version: Library version');
+			console.log('  -h, --help: Library help');
+			console.log('Options:');
+			console.log(
+				"  --env-file, -ef: Route where is the file for encrypting. Default: '.env'"
+			);
+			console.log(
+				"  --hash-file, -hf: Route for the new hash file. Default: 'keyer/encrypted-hash.txt'"
+			);
 		} else {
 			script({ envArg: argv.envFile, hashArg: argv.hashFile });
 		}
 	}
 ).argv;
 
+// Keyer script
 const script = (props: { envArg?: string; hashArg?: string }) => {
 	const { envArg, hashArg } = props;
 	const rl = createInterface({
 		input: process.stdin,
 		output: process.stdout,
 	});
-	// Get args from command line like --env-file='.env' --hash-file='keyer/encrypted-hash.txt'
-	// const getArg = (arg: string) => {
-	// 	arg = arg.replace(/["']/g, '');
-	// 	const argIndexFound = process.argv.findIndex((argText) =>
-	// 		arg.includes(`--${argText}`)
-	// 	);
-	// 	if (argIndexFound === -1) return;
-	// 	const preArgFoung = process.argv[argIndexFound];
-	// 	if (preArgFoung.includes('=')) return preArgFoung.split('=')[1];
-	// 	else {
-	// 		const nextArg = process.argv[argIndexFound + 1];
-	// 		if (nextArg && !nextArg.includes('--')) return nextArg;
-	// 	}
-	// };
-
-	// const envArg = getArg('--env-file') || getArg('--envFile');
-	// const hashArg = getArg('--hash-file') || getArg('--hashFile');
 
 	const envFile = envArg ?? '.env';
 	const hashFile = hashArg ?? 'keyer/encrypted-hash.txt';

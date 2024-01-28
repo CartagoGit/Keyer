@@ -6,16 +6,22 @@ This app is just a library to encrypt and decrypt texts and any other variables 
 
 `npm i @cartago-git/keyer`
 
+## CLI Basic
+
+* `keyer --version` or `-v`
+
+* `keyer --help` or `-h`
+
 ## To use command
 
-Just use the command `keyer`.
+Just use the command `keyer` to autoscript.
 
-As default: It will get the `.env` file from root and create a new folder `keyer` when encrypt with a file `encrypted-hash.txt`
+> As default: It will get the `.env` file from root and create a new folder `keyer` when encrypt with a file `encrypted-hash.txt`
 
-If you want change env or hash file just pass 'env-file' or 'envFile' for env. Or  'hash-file' 'hashFile' as arguments.
+If you want change env or hash file just pass `--env-file` or `-ef` for file to encrypt; `--hash-file` or `-hf` for hash as arguments.
 
-Example: 
-`keyer --envFile='folder/.env' --hashFile='folder/hash.txt'`
+Example:
+`keyer --env-file='folder/.env' --hash-file='folder/hash.txt'`
 
 ## To use methods
 
@@ -25,7 +31,7 @@ For Example:
 import {encrypt, decrypt, encryptAny, decriptAny}
 
 const salt = "This is just a secret salt that you must hide for others";
-const apiKey = 'qwehjqwieihqwoehioqwe'
+const apiKey = 'api_false_example_to_show'
 
 // To get the encrypted Hash
 const apiKeyHash = encrypt({
