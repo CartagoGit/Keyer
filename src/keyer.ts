@@ -1,58 +1,11 @@
-
-
-
 import { createInterface } from 'node:readline';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { decryptAny, encryptAny } from './exports';
-import * as yargsPkg from 'yargs';
-import { hideBin } from 'yargs/helpers';
-
-// Keyer CLI
-const createCli = () => {
-    const yargs = yargsPkg.default;
-    console.log(yargs().argv);
-	yargs(hideBin(process.argv)).command(
-		'$0',
-		'Keyer library commands',
-		(yargs) => {
-			return yargs
-				.version(false)
-				.option('envFile', {
-					alias: 'ef',
-					description: 'Route where is the file for encrypting',
-					type: 'string',
-				})
-				.option('hashFile', {
-					alias: 'hf',
-					description: 'Route for the new hash file',
-					type: 'string',
-				})
-				.option('version', {
-					alias: 'v',
-					description: 'Library version',
-					type: 'boolean',
-				})
-				.option('help', {
-					alias: 'h',
-					description: 'Library help',
-					type: 'boolean',
-				});
-		},
-		(argv): void => {
-			console.log('Keyer CLI', argv);
-			if (argv.version)
-				console.log(
-					'Keyer version: ' + require('../package.json').version
-				);
-			else if (argv.help) console.log('Keyer help:');
-			else script({ envArg: argv.envFile, hashArg: argv.hashFile });
-		}
-	).argv;
-};
+import { createCli } from './cli';
 
 // Keyer script
-const script = (props?: { envArg?: string; hashArg?: string }) => {
+const keyerCommand = (props?: { envArg?: string; hashArg?: string }) => {
 	const { envArg, hashArg } = props || {};
 	const rl = createInterface({
 		input: process.stdin,
@@ -106,9 +59,8 @@ const script = (props?: { envArg?: string; hashArg?: string }) => {
 	);
 };
 
-// createCli();
-
 export const keyer = () => {
 	console.log('test dentro');
-    createCli();
+	const cli = createCli();
+	console.log('cli', cli);
 };

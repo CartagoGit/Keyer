@@ -6,32 +6,37 @@ This app is just a library to encrypt and decrypt texts and any other variables 
 
 `npm i keyer`
 
-## CLI Basic
+## CLI
 
-* `keyer` Cli to encrypt\descrypt automatic
+### CLI Basic
 
-* `keyer --version` or `-v` Library version
+-   `keyer`. Cli to encrypt\descrypt automatic
 
-* `keyer --help` or `-h` Library CLI help
+-   `keyer --version` or `-v`. Library version
 
-* `keyer --encrypt='folder/file'` Encrypter
+-   `keyer --help` or `-h`. Library CLI help
 
-* `keyer --decrypt='folder/file'` Decrypter
+-   `keyer --encrypt` or `-e`. Encrypter
 
-## To use command keyer
+-   `keyer --decrypt` or `-d`. Decrypter
 
-Just use the command `keyer` to autoscript.
 
-> As default: It will get the `.env` file from root and create a new folder `keyer` when encrypt with a file `encrypted-hash.txt`
+> Default routes
 
-It accepts 
+-   Default encrypt file route - `/.env`
 
-If you want change env or hash file just pass `--encryptFile` or `-ef` for file to encrypt; `--decryptFile` or `-df` for hash as arguments.
+-   Default decrypt file route - `/keyer/encrypted-hash.txt`
+
+### To use other file routes
+
+If you want change encrypter or decrypter file just pass `--encryptFile` or `-ef` for file to encrypt; `--decryptFile` or `-df` for decrypt as arguments.
 
 Example:
 `keyer --encryptFile='folder/.env' --decryptFile='folder/hash.txt'`
 
-## To use methods
+## Library
+
+### To use methods
 
 For Example:
 
@@ -75,7 +80,7 @@ const objectDecrypted({
 console.log({apiKeyHash, apiKeyDecrypted, objectHash, objectDecrypted})
 ```
 
-## Optional
+### Optional
 
 Every function has a showLog prop in true, just put it to false if doesnt want the encrypt log
 
@@ -86,4 +91,3 @@ encrypt({
     showLog: false
 })
 ```
-
