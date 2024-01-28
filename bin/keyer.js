@@ -27,7 +27,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const node_readline_1 = require("node:readline");
 const node_fs_1 = require("node:fs");
 const node_path_1 = require("node:path");
-const index_1 = require("./index");
+const exports_1 = require("./exports");
 const yargsPkg = __importStar(require("yargs"));
 const helpers_1 = require("yargs/helpers");
 const yargs = yargsPkg.default;
@@ -72,8 +72,8 @@ const script = (props) => {
         input: process.stdin,
         output: process.stdout,
     });
-    const envFile = envArg ?? '.env';
-    const hashFile = hashArg ?? 'keyer/encrypted-hash.txt';
+    const envFile = envArg !== null && envArg !== void 0 ? envArg : '.env';
+    const hashFile = hashArg !== null && hashArg !== void 0 ? hashArg : 'keyer/encrypted-hash.txt';
     // Question for kind of crypto
     rl.question('Kind of crypto - encrypt(e) or decrypt(d): ', (keyKindCrypto) => {
         if (!keyKindCrypto ||
@@ -87,7 +87,7 @@ const script = (props) => {
             if (keyKindCrypto === 'e') {
                 // Encrypt envs and create hash file
                 const envs = (0, node_fs_1.readFileSync)(envFile, 'utf-8');
-                const encrypted = (0, index_1.encryptAny)({
+                const encrypted = (0, exports_1.encryptAny)({
                     secretSalt: salt,
                     toEncrypt: envs,
                 });
@@ -108,7 +108,7 @@ const script = (props) => {
             else if (keyKindCrypto === 'd') {
                 // Decrypt hash file and show envs in console
                 const hash = (0, node_fs_1.readFileSync)(hashFile, 'utf-8');
-                (0, index_1.decryptAny)({ secretSalt: salt, toDecrypt: hash });
+                (0, exports_1.decryptAny)({ secretSalt: salt, toDecrypt: hash });
             }
             rl.close();
         });

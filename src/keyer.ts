@@ -2,7 +2,7 @@
 import { createInterface } from 'node:readline';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
-import { decryptAny, encryptAny } from './index';
+import { decryptAny, encryptAny } from './exports';
 import * as yargsPkg from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
