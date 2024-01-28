@@ -1,6 +1,6 @@
 {
 	"name": "@cartago-git/keyer",
-	"version": "1.0.14",
+	"version": "1.0.15",
 	"description": "Secret encrypter for keys, api-keys and envs",
 	"main": "src/index.ts",
 	"scripts": {
@@ -37,6 +37,6 @@
 	},
 	"homepage": "https://github.com/CartagoGit/Keyer#readme",
 	"bin": {
-		"keyer": "bin/index"
+		"keyer": "bin/index.js"
 	}
 }
