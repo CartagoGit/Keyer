@@ -1,15 +1,16 @@
 {
-	"name": "@cartago-git/keyer",
+	"name": "@cartago-git/keyer-test",
 	"version": "1.0.16",
 	"description": "Secret encrypter for keys, api-keys and envs",
-	"main": "src/index.ts",
+	"main": "src/exports.ts",
+	"type": "module",
 	"scripts": {
-		"encrypt": "tsx src/encrypt.ts",
-		"decrypt": "tsx src/decrypt.ts",
-		"cli": "tsx src/keyer.ts --envfile='.env'",
+		"encrypt": "npx tsx src/encrypt.ts",
+		"decrypt": "npx tsx src/decrypt.ts",
+		"cli": "npx tsx src/keyer.ts --envfile='.env'",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"pack": "npm pack --pack-destination=./pack",
-		"pack:online": "tsc && npm publish"
+		"pack:online": "npm publish"
 	},
 	"keywords": [
 		"api",
@@ -31,6 +32,9 @@
 		"@types/yargs": "^17.0.32",
 		"typescript": "^5.3.3"
 	},
+	"peerDependencies": {
+		"tsx": "^4.7.0"
+	 },
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/CartagoGit/Keyer.git"
