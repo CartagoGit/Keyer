@@ -54,23 +54,31 @@ const createCommand = (props: {
 }) => {
 	const { commandProps, program } = props;
 	const { command: commandName, description, options, action } = commandProps;
-	const cmd = program
-		.command(commandName)
-		.description(description)
-		.action((args) => {
-			const subCommand = program.args[1] as IKindCommand;
-			if (!!subCommand && !Object.keys(options).includes(subCommand)) {
-				console.error(
-					`error: unrecognized command: ${subCommand}\n${helpMessage}`
-				);
-				process.exit(1);
-			}
-			if (action) action(args);
-		});
+	const cmd = program.command(commandName).description(description);
+	if (action) cmd.action(action);
 
 	Object.values(options).forEach((optionProps) =>
 		createOption({ optionProps, command: cmd })
 	);
+
+	// cmd.action((args) => {
+	// 	const subCommands = program.args.slice(1) as (keyof typeof options)[];
+	// 	console.log('subCommand', subCommands);
+	// 	console.log('args', args);
+	// 	for (const subCommand of subCommands) {
+	// 		if (
+	// 			!!subCommand &&
+	// 			!subCommand.includes('-') &&
+	// 			!Object.keys(options).includes(subCommand)
+	// 		) {
+	// 			console.error(
+	// 				`error: unrecognized command: ${subCommand}\n${helpMessage}`
+	// 			);
+	// 			process.exit(1);
+	// 		}
+	// 	}
+	// 	if (action) action(args);
+	// });
 };
 
 const createOption = (props: {
