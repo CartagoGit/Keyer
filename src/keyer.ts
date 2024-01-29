@@ -4,7 +4,7 @@ import { dirname } from 'node:path';
 import { decryptAny, encryptAny } from '.';
 import { createCli } from './cli';
 import { defaultFiles } from './cli-props';
-import { IKeyerCommandProps } from './interfaces/keyer.interfaces';
+import { IKeyerCommandProps, IKeyerProps } from './interfaces/keyer.interfaces';
 
 // Keyer script
 export const keyerCommand = (props: IKeyerCommandProps) => {
@@ -30,37 +30,13 @@ export const keyerCommand = (props: IKeyerCommandProps) => {
 			const kindCrypto = keyKindCrypto === 'e' ? 'encrypt' : 'decrypt';
 			// Question for secret salt
 			rl.question(`Enter Secret Salt for ${kindCrypto}: `, (salt) => {
-				if (!salt) throw new Error('Salt is required');
-				if (keyKindCrypto === 'e') {
-					// Encrypt envs and create hash file
-					const envs = readFileSync(encryptFile, 'utf-8');
-					const encrypted = encryptAny({
-						secretSalt: salt,
-						toEncrypt: envs,
+				if (keyKindCrypto === 'e')
+					encryptCommand({
+						file: encryptFile,
+						output: encryptedFile,
+						salt,
 					});
-					// Verfiy if file exist
-					createFolderAndFile(encryptedFile);
-					// Create hash file
-					writeFileSync(encryptedFile, encrypted, {
-						encoding: 'utf-8',
-						flag: 'w',
-					});
-				} else if (keyKindCrypto === 'd') {
-					// Decrypt hash file and show envs in console
-					const hash = readFileSync(encryptedFile, 'utf-8');
-					const decryptedVar = decryptAny({
-						secretSalt: salt,
-						toDecrypt: hash,
-					});
-					if (!!decryptedFile) {
-						// Verfiy if file exist
-						createFolderAndFile(decryptedFile);
-						// Create env file
-						writeFileSync(decryptedFile, decryptedVar, {
-							encoding: 'utf-8',
-							flag: 'w',
-						});
-					}
+				else if (keyKindCrypto === 'd') {
 				}
 				rl.close();
 			});
@@ -68,8 +44,46 @@ export const keyerCommand = (props: IKeyerCommandProps) => {
 	);
 };
 
-export const encryptCommand = (props: { file: string; output: string }) => {
-	
+export const encryptCommand = (props: IKeyerProps) => {
+	const { file, output, salt } = props;
+	if (!salt) throw new Error('Salt is required');
+	console.log(`Encrypting file ${file}...`);
+	// Encrypt envs and create hash file
+	const envs = readFileSync(file, 'utf-8');
+	const encrypted = encryptAny({
+		secretSalt: salt,
+		toEncrypt: envs,
+	});
+	// Verfiy if file exist
+	createFolderAndFile(output);
+	// Create hash file
+	writeFileSync(output, encrypted, {
+		encoding: 'utf-8',
+		flag: 'w',
+	});
+	console.log('Encrypted in ', output);
+};
+
+export const decryptCommand = (props: IKeyerProps) => {
+	const { file, output, salt } = props;
+	if (!salt) throw new Error('Salt is required');
+	console.log(`Decrypting file ${file}...`);
+	// Decrypt hash file and show envs in console
+	const hash = readFileSync(file, 'utf-8');
+	const decryptedVar = decryptAny({
+		secretSalt: salt,
+		toDecrypt: hash,
+	});
+	if (!!output) {
+		// Verfiy if file exist
+		createFolderAndFile(output);
+		// Create env file
+		writeFileSync(output, decryptedVar, {
+			encoding: 'utf-8',
+			flag: 'w',
+		});
+		console.log('Decrypted in ', output);
+	} else console.log(decryptedVar);
 };
 
 const createFolderAndFile = (file: string) => {

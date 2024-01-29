@@ -74,7 +74,9 @@ const createOption = (props: {
 	const argumentChain = argument ? ` ${argument}` : '';
 	command[isRequired ? 'requiredOption' : 'option'](
 		`${shortChain}${optionCommand}${argumentChain}`,
-		description || undefined,
+		description
+			? description + `${isRequired ? ' (required option)' : ''}`
+			: undefined,
 		defaultValue || undefined
 	);
 };

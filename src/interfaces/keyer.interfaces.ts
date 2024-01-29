@@ -21,7 +21,7 @@ export interface IOptionProps {
 	short: string | string[] | null;
 	description: string;
 	default: string | boolean | null;
-    isRequired?: boolean;
+	isRequired?: boolean;
 }
 
 export interface IKeyerCommandProps {
@@ -29,3 +29,5 @@ export interface IKeyerCommandProps {
 	encryptedRoute: string;
 	decryptedRoute: string;
 }
+
+export type IKeyerProps = Record<IKindDefaultOption, string>;
