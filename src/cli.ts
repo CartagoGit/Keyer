@@ -16,7 +16,10 @@ export const createCli = () => {
 		.description(pkg.description)
 		.version(pkg.version, '-v', 'output Keyer current version')
 		.showHelpAfterError('(add --help for additional information)')
-		.helpOption('-h, --help', 'output Keyer help');
+		.helpOption('-h, --help', 'output Keyer help')
+		.action(() => {
+			keyerCommand();
+		});
 
 	for (const option of Object.values(keyserOptions)) {
 		createOption({ command: program, optionProps: option });
@@ -27,11 +30,11 @@ export const createCli = () => {
 	);
 	// console.log(program.parse(process.argv));
 	// console.log(program.parse());
-    program.parse()
-    const command = program.commands
-    console.log(program.args)
-    console.log(command);
-    // if(program.processedArgs)
+	program.parse();
+	const command = program.commands;
+	// console.log(program.args)
+	// console.log(command);
+	// if(program.processedArgs)
 };
 
 const createCommand = (props: {
@@ -39,8 +42,9 @@ const createCommand = (props: {
 	program: Command;
 }) => {
 	const { commandProps, program } = props;
-	const { command: commandName, description, options } = commandProps;
+	const { command: commandName, description, options, action } = commandProps;
 	const cmd = program.command(commandName).description(description);
+	if (action) cmd.action(action);
 	Object.values(options).forEach((optionProps) =>
 		createOption({ optionProps, command: cmd })
 	);

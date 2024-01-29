@@ -10,6 +10,7 @@ export interface ICommandProps {
 	command: string;
 	description: string;
 	options: Record<string, IOptionProps>;
+    action?: (...args: any[]) => void;
 }
 
 export interface IOptionProps {
@@ -98,10 +99,16 @@ export const commands: Record<IKindCommand, ICommandProps> = {
 		command: 'encrypt',
 		description: 'encrypt command cli',
 		options: encryptOptions,
+        action: (arg: Record<IKindDefaultOption, string>) => {
+            console.log('encrypt',arg)
+        }
 	},
 	decrypt: {
 		command: 'decrypt',
 		description: 'decrypt command cli',
 		options: decryptOptions,
+        action: (arg: Record<IKindDefaultOption, string>) => {
+            console.log('decrypt',arg)
+        }
 	},
 };
