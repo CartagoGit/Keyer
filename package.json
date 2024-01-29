@@ -1,6 +1,6 @@
 {
 	"name": "@cartago-git/keyer",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "Secret encrypter for keys, api-keys and envs",
 	"main": "src/index.ts",
 	"scripts": {
@@ -10,7 +10,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"pack": "npm pack --pack-destination=./pack",
 		"create:cli": "npx tsc",
-		"pack:online": "npm publish"
+		"pack:online": "npm run create:cli && npm publish"
 	},
 	"keywords": [
 		"api",
