@@ -3,14 +3,16 @@ export type IKindKeyer =
 	| 'encrypt-route'
 	| 'encrypted-route'
 	| 'decrypted-route';
-export type IKindCommand = 'encrypt' | 'decrypt';
+export const availableCommands = ['encrypt', 'decrypt'] as const;
+export type IKindCommand = (typeof availableCommands)[number];
+
 export type IKindDefaultOption = 'file' | 'output';
 
 export interface ICommandProps {
 	command: string;
 	description: string;
 	options: Record<string, IOptionProps>;
-    action?: (...args: any[]) => void;
+	action?: (...args: any[]) => void;
 }
 
 export interface IOptionProps {
@@ -22,6 +24,7 @@ export interface IOptionProps {
 }
 
 // Props
+
 export const defaultFiles = {
 	encryptRoute: '.env',
 	encryptedRoute: 'keyer/encrypted.txt',
@@ -99,16 +102,16 @@ export const commands: Record<IKindCommand, ICommandProps> = {
 		command: 'encrypt',
 		description: 'encrypt command cli',
 		options: encryptOptions,
-        action: (arg: Record<IKindDefaultOption, string>) => {
-            console.log('encrypt',arg)
-        }
+		action: (arg: Record<IKindDefaultOption, string>) => {
+			console.log('encrypt', arg);
+		},
 	},
 	decrypt: {
 		command: 'decrypt',
 		description: 'decrypt command cli',
 		options: decryptOptions,
-        action: (arg: Record<IKindDefaultOption, string>) => {
-            console.log('decrypt',arg)
-        }
+		action: (arg: Record<IKindDefaultOption, string>) => {
+			console.log('decrypt', arg);
+		},
 	},
 };
