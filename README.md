@@ -2,37 +2,67 @@
 
 This app is just a library to encrypt and decrypt texts and any other variables with a salt.
 
+> Secret encrypter for keys, api-keys, envs or others
+
 ## To install
 
-`npm i keyer`
+To install in project
+
+`npm install keyser`
+
+or for global install
+
+`npm intall --global keyser`
 
 ## CLI
 
 ### CLI Basic
 
--   `keyer`. Cli to encrypt\descrypt automatic
-
--   `keyer --version` or `-v`. Library version
-
--   `keyer --help` or `-h`. Library CLI help
-
--   `keyer --encrypt` or `-e`. Encrypter
-
--   `keyer --decrypt` or `-d`. Decrypter
 
 
-> Default routes
+### Keyer Cli:
 
--   Default encrypt file route - `/.env`
+```Console
+Usage: keyer [options] or [command]
+    -v                                       output Keyer current version
+    -er, encrypt-route <encrypt-route>       route from file to encrypt (default: ".env")
+    -edr, encrypted-route <encrypted-route>  route from file when it will be encrypted (default: "keyer/encrypted.txt")
+    -dr, decrypted-route <decrypted-route>   route from file when it will be decrypted (default: "keyer/decrypted.txt")
+    -h, --help                               output Keyer help
 
--   Default decrypt file route - `/keyer/encrypted-hash.txt`
+    Commands:
+    encrypt [options]                        encrypt command cli
+    decrypt [options]                        decrypt command cli
+```
 
-### To use other file routes
+### Keyer encrypt:
 
-If you want change encrypter or decrypter file just pass `--encryptFile` or `-ef` for file to encrypt; `--decryptFile` or `-df` for decrypt as arguments.
+````Console
+Usage: keyer encrypt [options]
 
-Example:
-`keyer --encryptFile='folder/.env' --decryptFile='folder/hash.txt'`
+encrypt command cli
+
+Options:
+    -f, --file <file>      route where is the file for encrypting (default: ".env")
+    -o, --output <output>  route where file encrypted will create (default: "keyer/encrypted.txt")
+    -s, --salt <salt>      secret salt (required option)
+    -h, --help             output Keyer help
+````
+
+### Keyer decrypt:
+
+````Console
+Usage: keyer decrypt [options]
+
+decrypt command cli
+
+Options:
+    -f, --file <file>      route file (default: "keyer/encrypted.txt")
+    -o, --output <output>  route where file will decrypted (default: "keyer/decrypted.txt")
+    -s, --salt <salt>      secret salt (required option)
+    -co, --create-output   create file output (default: false)
+    -h, --help             output Keyer help
+````
 
 ## Library
 
