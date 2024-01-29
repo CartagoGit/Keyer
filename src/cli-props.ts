@@ -1,10 +1,12 @@
+import { decryptCommand, encryptCommand } from '.';
 import {
 	IKindDefaultOption,
 	IOptionProps,
 	IKindKeyer,
 	IKindCommand,
 	ICommandProps,
-} from './interfaces/keyer.interfaces';
+	IKeyerDecryptProps,
+} from './interfaces/keyer.interface';
 
 // Props
 export const helpMessage = '(add --help for additional information)';
@@ -55,7 +57,7 @@ export const encryptOptions: Record<IKindDefaultOption, IOptionProps> = {
 };
 
 export const decryptOptions: Record<
-	IKindDefaultOption & 'create-output',
+	IKindDefaultOption | 'createOutput',
 	IOptionProps
 > = {
 	file: {
@@ -68,12 +70,11 @@ export const decryptOptions: Record<
 		default: defaultFiles.decryptedRoute,
 	},
 	salt: defaultOptions.salt,
-    // TODO review
-	'createOutput': {
+	createOutput: {
 		command: '--create-output',
-		argument: '<create-output>',
+		argument: null,
 		short: '-co',
-		description: 'create file output (true or false)',
+		description: 'create file output',
 		default: false,
 	},
 };
@@ -108,20 +109,15 @@ export const commands: Record<IKindCommand, ICommandProps> = {
 		description: 'encrypt command cli',
 		options: encryptOptions,
 		action: (arg: Record<IKindDefaultOption, string>) => {
-			console.log('encrypt', arg);
-			// TODO
+			encryptCommand(arg);
 		},
 	},
 	decrypt: {
 		command: 'decrypt',
 		description: 'decrypt command cli',
 		options: decryptOptions,
-		action: (
-			arg: Record<IKindDefaultOption, string > 
-		) => {
-			console.log('decrypt', arg);
-			// const { file, output,createOutput } = arg;
-			// TODO
+		action: (arg: IKeyerDecryptProps) => {
+			decryptCommand(arg);
 		},
 	},
 };

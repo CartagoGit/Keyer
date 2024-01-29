@@ -8,7 +8,7 @@ import {
 	IKeyerCommandProps,
 	IKeyerDecryptProps,
 	IKeyerProps,
-} from './interfaces/keyer.interfaces';
+} from './interfaces/keyer.interface';
 
 // Keyer script
 export const keyerCommand = (props: IKeyerCommandProps) => {
@@ -68,6 +68,7 @@ export const encryptCommand = (props: IKeyerProps) => {
 	const encrypted = encryptAny({
 		secretSalt: salt,
 		toEncrypt: envs,
+		showLog: false,
 	});
 	// Verfiy if file exist
 	createFolderAndFile(output);
@@ -83,11 +84,11 @@ export const decryptCommand = (props: IKeyerDecryptProps) => {
 	const { file, output, salt, createOutput } = props;
 	if (!salt) throw new Error('Salt is required');
 	console.log(`Decrypting file ${file}...`);
-	// Decrypt hash file and show envs in console
 	const hash = readFileSync(file, 'utf-8');
 	const decryptedVar = decryptAny({
 		secretSalt: salt,
 		toDecrypt: hash,
+		showLog: false,
 	});
 	if (!!output && createOutput) {
 		// Verfiy if file exist
@@ -98,7 +99,7 @@ export const decryptCommand = (props: IKeyerDecryptProps) => {
 			flag: 'w',
 		});
 		console.log('Decrypted in ', output);
-	} else console.log('Decrypted data: ', decryptedVar);
+	} else console.log('Decrypted data: ', decryptedVar); // Decrypt hash file and show envs in console
 };
 
 const createFolderAndFile = (file: string) => {

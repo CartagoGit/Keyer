@@ -8,7 +8,7 @@ import {
 	ICommandProps,
 	IOptionProps,
 	IKeyerCommandProps,
-} from './interfaces/keyer.interfaces';
+} from './interfaces/keyer.interface';
 
 // Start CLI
 export const createCli = () => {
@@ -49,7 +49,6 @@ const createCommand = (props: {
 	const { command: commandName, description, options, action } = commandProps;
 	const cmd = program.command(commandName).description(description);
 	if (action) cmd.action(action);
-
 	Object.values(options).forEach((optionProps) =>
 		createOption({ optionProps, command: cmd })
 	);
@@ -59,7 +58,7 @@ const createOption = (props: {
 	optionProps: IOptionProps;
 	command: Command;
 }) => {
-	const { optionProps, command } = props;
+    const { optionProps, command } = props;
 	const {
 		command: optionCommand,
 		argument,
@@ -72,11 +71,12 @@ const createOption = (props: {
 		? `${Array.isArray(short) ? short.join(', ') : short}, `
 		: '';
 	const argumentChain = argument ? ` ${argument}` : '';
+
 	command[isRequired ? 'requiredOption' : 'option'](
 		`${shortChain}${optionCommand}${argumentChain}`,
 		description
 			? description + `${isRequired ? ' (required option)' : ''}`
 			: undefined,
-		defaultValue || undefined
+		defaultValue ?? undefined
 	);
 };
