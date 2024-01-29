@@ -54,7 +54,10 @@ export const encryptOptions: Record<IKindDefaultOption, IOptionProps> = {
 	salt: defaultOptions.salt,
 };
 
-export const decryptOptions: Record<IKindDefaultOption, IOptionProps> = {
+export const decryptOptions: Record<
+	IKindDefaultOption & 'create-output',
+	IOptionProps
+> = {
 	file: {
 		...defaultOptions.file,
 		default: defaultFiles.encryptedRoute,
@@ -65,6 +68,14 @@ export const decryptOptions: Record<IKindDefaultOption, IOptionProps> = {
 		default: defaultFiles.decryptedRoute,
 	},
 	salt: defaultOptions.salt,
+    // TODO review
+	'createOutput': {
+		command: '--create-output',
+		argument: '<create-output>',
+		short: '-co',
+		description: 'create file output (true or false)',
+		default: false,
+	},
 };
 
 export const keyserOptions: Record<IKindKeyer, IOptionProps> = {
@@ -98,15 +109,19 @@ export const commands: Record<IKindCommand, ICommandProps> = {
 		options: encryptOptions,
 		action: (arg: Record<IKindDefaultOption, string>) => {
 			console.log('encrypt', arg);
+			// TODO
 		},
 	},
 	decrypt: {
 		command: 'decrypt',
 		description: 'decrypt command cli',
 		options: decryptOptions,
-		action: (arg: Record<IKindDefaultOption, string>) => {
+		action: (
+			arg: Record<IKindDefaultOption, string > 
+		) => {
 			console.log('decrypt', arg);
-			const { file, output } = arg;
+			// const { file, output,createOutput } = arg;
+			// TODO
 		},
 	},
 };
