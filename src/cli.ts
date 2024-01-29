@@ -8,6 +8,7 @@ import {
 	IOptionProps,
 	availableCommands,
 	IKindCommand,
+	helpMessage,
 } from './cli-props';
 
 // Start CLI
@@ -17,13 +18,13 @@ export const createCli = () => {
 		.name('keyer')
 		.description(pkg.description)
 		.version(pkg.version, '-v', 'output Keyer current version')
-		.showHelpAfterError('(add --help for additional information)')
+		.showHelpAfterError(helpMessage)
 		.helpOption('-h, --help', 'output Keyer help')
 		.action((args) => {
 			const firstCommand = program.args[0] as IKindCommand;
 			if (!!firstCommand && !availableCommands.includes(firstCommand)) {
 				console.error(
-					`error: unrecognized command: ${firstCommand}\n(add --help for additional information)`
+					`error: unrecognized command: ${firstCommand}\n${helpMessage}`
 				);
 				process.exit(1);
 			}
@@ -56,9 +57,17 @@ const createCommand = (props: {
 	const cmd = program
 		.command(commandName)
 		.description(description)
-		
+		.action((args) => {
+			const subCommand = program.args[1] as IKindCommand;
+			if (!!subCommand && !Object.keys(options).includes(subCommand)) {
+				console.error(
+					`error: unrecognized command: ${subCommand}\n${helpMessage}`
+				);
+				process.exit(1);
+			}
+			if (action) action(args);
+		});
 
-	if (action) cmd.action(action);
 	Object.values(options).forEach((optionProps) =>
 		createOption({ optionProps, command: cmd })
 	);

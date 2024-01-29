@@ -24,6 +24,7 @@ export interface IOptionProps {
 }
 
 // Props
+export const helpMessage = '(add --help for additional information)';
 
 export const defaultFiles = {
 	encryptRoute: '.env',
