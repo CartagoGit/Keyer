@@ -1,5 +1,8 @@
 node_modules
-package-lock.json
 *.tgz
 pack
 .vscode
+keyer
+
+/package-lock.json
+/.env

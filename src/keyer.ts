@@ -4,7 +4,11 @@ import { dirname } from 'node:path';
 import { decryptAny, encryptAny } from '.';
 import { createCli } from './cli';
 import { defaultFiles } from './cli-props';
-import { IKeyerCommandProps, IKeyerProps } from './interfaces/keyer.interfaces';
+import {
+	IKeyerCommandProps,
+	IKeyerDecryptProps,
+	IKeyerProps,
+} from './interfaces/keyer.interfaces';
 
 // Keyer script
 export const keyerCommand = (props: IKeyerCommandProps) => {
@@ -30,15 +34,26 @@ export const keyerCommand = (props: IKeyerCommandProps) => {
 			const kindCrypto = keyKindCrypto === 'e' ? 'encrypt' : 'decrypt';
 			// Question for secret salt
 			rl.question(`Enter Secret Salt for ${kindCrypto}: `, (salt) => {
-				if (keyKindCrypto === 'e')
+				if (keyKindCrypto === 'e') {
 					encryptCommand({
 						file: encryptFile,
 						output: encryptedFile,
 						salt,
 					});
-				else if (keyKindCrypto === 'd') {
+					rl.close();
+				} else if (keyKindCrypto === 'd') {
+					rl.question(`Do you want create output?(y/n): `, (resp) => {
+						if (!resp || !['y', 'n'].some((resp) => resp === resp))
+							throw new Error("Response must have 'y' or 'n'");
+						decryptCommand({
+							file: encryptedFile,
+							output: decryptedFile,
+							salt,
+							createOutput: resp === 'y' ? true : false,
+						});
+						rl.close();
+					});
 				}
-				rl.close();
 			});
 		}
 	);
@@ -64,8 +79,8 @@ export const encryptCommand = (props: IKeyerProps) => {
 	console.log('Encrypted in ', output);
 };
 
-export const decryptCommand = (props: IKeyerProps) => {
-	const { file, output, salt } = props;
+export const decryptCommand = (props: IKeyerDecryptProps) => {
+	const { file, output, salt, createOutput } = props;
 	if (!salt) throw new Error('Salt is required');
 	console.log(`Decrypting file ${file}...`);
 	// Decrypt hash file and show envs in console
@@ -74,7 +89,7 @@ export const decryptCommand = (props: IKeyerProps) => {
 		secretSalt: salt,
 		toDecrypt: hash,
 	});
-	if (!!output) {
+	if (!!output && createOutput) {
 		// Verfiy if file exist
 		createFolderAndFile(output);
 		// Create env file
@@ -83,7 +98,7 @@ export const decryptCommand = (props: IKeyerProps) => {
 			flag: 'w',
 		});
 		console.log('Decrypted in ', output);
-	} else console.log(decryptedVar);
+	} else console.log('Decrypted data: ', decryptedVar);
 };
 
 const createFolderAndFile = (file: string) => {
