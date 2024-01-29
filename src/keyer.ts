@@ -81,7 +81,7 @@ export const encryptCommand = (props: IKeyerProps) => {
 };
 
 export const decryptCommand = (props: IKeyerDecryptProps) => {
-	const { file, output, salt, createOutput } = props;
+	const { file, output, salt, createOutput = false } = props;
 	if (!salt) throw new Error('Salt is required');
 	console.log(`Decrypting file ${file}...`);
 	const hash = readFileSync(file, 'utf-8');

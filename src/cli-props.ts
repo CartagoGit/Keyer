@@ -79,7 +79,7 @@ export const decryptOptions: Record<
 	},
 };
 
-export const keyserOptions: Record<IKindKeyer, IOptionProps> = {
+export const keyerOptions: Record<IKindKeyer, IOptionProps> = {
 	'encrypt-route': {
 		command: 'encrypt-route',
 		argument: '<encrypt-route>',

@@ -31,4 +31,4 @@ export interface IKeyerCommandProps {
 }
 
 export type IKeyerProps = Record<IKindDefaultOption, string>;
-export type IKeyerDecryptProps = IKeyerProps & { createOutput: boolean}
+export type IKeyerDecryptProps = IKeyerProps & { createOutput?: boolean}

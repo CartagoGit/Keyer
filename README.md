@@ -8,17 +8,15 @@ This app is just a library to encrypt and decrypt texts and any other variables 
 
 To install in project
 
-`npm install keyser`
+`npm install @cartago-git/keyer`
 
 or for global install
 
-`npm intall --global keyser`
+`npm install --global @cartago-git/keyer`
 
 ## CLI
 
 ### CLI Basic
-
-
 
 ### Keyer Cli:
 
@@ -37,7 +35,7 @@ Usage: keyer [options] or [command]
 
 ### Keyer encrypt:
 
-````Console
+```Console
 Usage: keyer encrypt [options]
 
 encrypt command cli
@@ -47,11 +45,11 @@ Options:
     -o, --output <output>  route where file encrypted will create (default: "keyer/encrypted.txt")
     -s, --salt <salt>      secret salt (required option)
     -h, --help             output Keyer help
-````
+```
 
 ### Keyer decrypt:
 
-````Console
+```Console
 Usage: keyer decrypt [options]
 
 decrypt command cli
@@ -62,7 +60,7 @@ Options:
     -s, --salt <salt>      secret salt (required option)
     -co, --create-output   create file output (default: false)
     -h, --help             output Keyer help
-````
+```
 
 ## Library
 
@@ -119,5 +117,36 @@ encrypt({
     toEncrypt: apiKey,
     secretSalt: salt,
     showLog: false
+})
+```
+
+## Methods for console and create files encrypted/decrypted
+
+```Typescript
+import {keyerCommand, encryptCommand, decryptCommand}
+```
+
+```Typescript
+keyerCommand({
+	encryptRoute: string;
+	encryptedRoute: string;
+	decryptedRoute: string;
+})
+```
+
+```Typescript
+encryptCommand({
+	file: string;
+	output: string;
+	salt: string;
+})
+```
+
+```Typescript
+decryptCommand({
+	file: string;
+	output: string;
+	salt: string;
+    createOutput?: boolean // (default:false)
 })
 ```
