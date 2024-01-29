@@ -4,51 +4,56 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCli = void 0;
-const commander_1 = require("commander");
-const package_json_1 = __importDefault(require("../package.json"));
-const keyer_1 = require("./keyer");
-const cli_props_1 = require("./cli-props");
-const keyer_interface_1 = require("./interfaces/keyer.interface");
+var commander_1 = require("commander");
+var package_json_1 = __importDefault(require("../package.json"));
+var keyer_1 = require("./keyer");
+var cli_props_1 = require("./cli-props");
+var keyer_interface_1 = require("./interfaces/keyer.interface");
 // Start CLI
-const createCli = () => {
-    const program = new commander_1.Command();
+var createCli = function () {
+    var program = new commander_1.Command();
     program
         .name('keyer')
         .description(package_json_1.default.description)
         .version(package_json_1.default.version, '-v', 'output Keyer current version')
         .showHelpAfterError(cli_props_1.helpMessage)
         .helpOption('-h, --help', 'output Keyer help')
-        .action((args) => {
-        const firstCommand = program.args[0];
+        .action(function (args) {
+        var firstCommand = program.args[0];
         if (!!firstCommand && !keyer_interface_1.availableCommands.includes(firstCommand)) {
-            console.error(`error: unrecognized command: ${firstCommand}\n${cli_props_1.helpMessage}`);
+            console.error("error: unrecognized command: ".concat(firstCommand, "\n").concat(cli_props_1.helpMessage));
             process.exit(1);
         }
         (0, keyer_1.keyerCommand)(args);
     });
-    for (const option of Object.values(cli_props_1.keyerOptions)) {
+    for (var _i = 0, _a = Object.values(cli_props_1.keyerOptions); _i < _a.length; _i++) {
+        var option = _a[_i];
         createOption({ command: program, optionProps: option });
     }
-    Object.values(cli_props_1.commands).forEach((command) => createCommand({ commandProps: command, program }));
+    Object.values(cli_props_1.commands).forEach(function (command) {
+        return createCommand({ commandProps: command, program: program });
+    });
     program.parse();
 };
 exports.createCli = createCli;
-const createCommand = (props) => {
-    const { commandProps, program } = props;
-    const { command: commandName, description, options, action } = commandProps;
-    const cmd = program.command(commandName).description(description);
+var createCommand = function (props) {
+    var commandProps = props.commandProps, program = props.program;
+    var commandName = commandProps.command, description = commandProps.description, options = commandProps.options, action = commandProps.action;
+    var cmd = program.command(commandName).description(description);
     if (action)
         cmd.action(action);
-    Object.values(options).forEach((optionProps) => createOption({ optionProps, command: cmd }));
+    Object.values(options).forEach(function (optionProps) {
+        return createOption({ optionProps: optionProps, command: cmd });
+    });
 };
-const createOption = (props) => {
-    const { optionProps, command } = props;
-    const { command: optionCommand, argument, short, description, default: defaultValue, isRequired, } = optionProps;
-    const shortChain = short
-        ? `${Array.isArray(short) ? short.join(', ') : short}, `
+var createOption = function (props) {
+    var optionProps = props.optionProps, command = props.command;
+    var optionCommand = optionProps.command, argument = optionProps.argument, short = optionProps.short, description = optionProps.description, defaultValue = optionProps.default, isRequired = optionProps.isRequired;
+    var shortChain = short
+        ? "".concat(Array.isArray(short) ? short.join(', ') : short, ", ")
         : '';
-    const argumentChain = argument ? ` ${argument}` : '';
-    command[isRequired ? 'requiredOption' : 'option'](`${shortChain}${optionCommand}${argumentChain}`, description
-        ? description + `${isRequired ? ' (required option)' : ''}`
-        : undefined, defaultValue ?? undefined);
+    var argumentChain = argument ? " ".concat(argument) : '';
+    command[isRequired ? 'requiredOption' : 'option']("".concat(shortChain).concat(optionCommand).concat(argumentChain), description
+        ? description + "".concat(isRequired ? ' (required option)' : '')
+        : undefined, defaultValue !== null && defaultValue !== void 0 ? defaultValue : undefined);
 };

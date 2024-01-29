@@ -1,7 +1,18 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.commands = exports.keyerOptions = exports.decryptOptions = exports.encryptOptions = exports.defaultOptions = exports.defaultFiles = exports.helpMessage = void 0;
-const _1 = require(".");
+var _1 = require(".");
 // Props
 exports.helpMessage = '(add --help for additional information)';
 exports.defaultFiles = {
@@ -34,28 +45,13 @@ exports.defaultOptions = {
     },
 };
 exports.encryptOptions = {
-    file: {
-        ...exports.defaultOptions.file,
-        description: 'route where is the file for encrypting',
-        default: exports.defaultFiles.encryptRoute,
-    },
-    output: {
-        ...exports.defaultOptions.output,
-        description: 'route where file encrypted will create',
-        default: exports.defaultFiles.encryptedRoute,
-    },
+    file: __assign(__assign({}, exports.defaultOptions.file), { description: 'route where is the file for encrypting', default: exports.defaultFiles.encryptRoute }),
+    output: __assign(__assign({}, exports.defaultOptions.output), { description: 'route where file encrypted will create', default: exports.defaultFiles.encryptedRoute }),
     salt: exports.defaultOptions.salt,
 };
 exports.decryptOptions = {
-    file: {
-        ...exports.defaultOptions.file,
-        default: exports.defaultFiles.encryptedRoute,
-    },
-    output: {
-        ...exports.defaultOptions.output,
-        description: 'route where file will decrypted',
-        default: exports.defaultFiles.decryptedRoute,
-    },
+    file: __assign(__assign({}, exports.defaultOptions.file), { default: exports.defaultFiles.encryptedRoute }),
+    output: __assign(__assign({}, exports.defaultOptions.output), { description: 'route where file will decrypted', default: exports.defaultFiles.decryptedRoute }),
     salt: exports.defaultOptions.salt,
     createOutput: {
         command: '--create-output',
@@ -93,7 +89,7 @@ exports.commands = {
         command: 'encrypt',
         description: 'encrypt command cli',
         options: exports.encryptOptions,
-        action: (arg) => {
+        action: function (arg) {
             (0, _1.encryptCommand)(arg);
         },
     },
@@ -101,7 +97,7 @@ exports.commands = {
         command: 'decrypt',
         description: 'decrypt command cli',
         options: exports.decryptOptions,
-        action: (arg) => {
+        action: function (arg) {
             (0, _1.decryptCommand)(arg);
         },
     },
