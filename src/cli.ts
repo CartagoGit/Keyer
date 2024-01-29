@@ -1,15 +1,14 @@
 import { Command } from 'commander';
 import pkg from '../package.json';
 import { keyerCommand } from './keyer';
+import { keyserOptions, commands, helpMessage } from './cli-props';
 import {
-	keyserOptions,
-	commands,
+	IKindCommand,
+	availableCommands,
 	ICommandProps,
 	IOptionProps,
-	availableCommands,
-	IKindCommand,
-	helpMessage,
-} from './cli-props';
+	IKeyerCommandProps,
+} from './interfaces/keyer.interfaces';
 
 // Start CLI
 export const createCli = () => {
@@ -20,7 +19,7 @@ export const createCli = () => {
 		.version(pkg.version, '-v', 'output Keyer current version')
 		.showHelpAfterError(helpMessage)
 		.helpOption('-h, --help', 'output Keyer help')
-		.action((args) => {
+		.action((args: IKeyerCommandProps) => {
 			const firstCommand = program.args[0] as IKindCommand;
 			if (!!firstCommand && !availableCommands.includes(firstCommand)) {
 				console.error(
@@ -28,8 +27,7 @@ export const createCli = () => {
 				);
 				process.exit(1);
 			}
-			console.log('args', args);
-			// keyerCommand();
+			keyerCommand(args);
 		});
 
 	for (const option of Object.values(keyserOptions)) {
@@ -39,13 +37,8 @@ export const createCli = () => {
 	Object.values(commands).forEach((command) =>
 		createCommand({ commandProps: command, program })
 	);
-	// console.log(program.parse(process.argv));
-	// console.log(program.parse());
+
 	program.parse();
-	const command = program.commands;
-	// console.log(program.args)
-	// console.log(command);
-	// if(program.processedArgs)
 };
 
 const createCommand = (props: {
@@ -60,25 +53,6 @@ const createCommand = (props: {
 	Object.values(options).forEach((optionProps) =>
 		createOption({ optionProps, command: cmd })
 	);
-
-	// cmd.action((args) => {
-	// 	const subCommands = program.args.slice(1) as (keyof typeof options)[];
-	// 	console.log('subCommand', subCommands);
-	// 	console.log('args', args);
-	// 	for (const subCommand of subCommands) {
-	// 		if (
-	// 			!!subCommand &&
-	// 			!subCommand.includes('-') &&
-	// 			!Object.keys(options).includes(subCommand)
-	// 		) {
-	// 			console.error(
-	// 				`error: unrecognized command: ${subCommand}\n${helpMessage}`
-	// 			);
-	// 			process.exit(1);
-	// 		}
-	// 	}
-	// 	if (action) action(args);
-	// });
 };
 
 const createOption = (props: {
@@ -92,12 +66,13 @@ const createOption = (props: {
 		short,
 		description,
 		default: defaultValue,
+		isRequired,
 	} = optionProps;
 	const shortChain = short
 		? `${Array.isArray(short) ? short.join(', ') : short}, `
 		: '';
 	const argumentChain = argument ? ` ${argument}` : '';
-	command.option(
+	command[isRequired ? 'requiredOption' : 'option'](
 		`${shortChain}${optionCommand}${argumentChain}`,
 		description || undefined,
 		defaultValue || undefined

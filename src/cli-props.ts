@@ -1,27 +1,10 @@
-// Definitions
-export type IKindKeyer =
-	| 'encrypt-route'
-	| 'encrypted-route'
-	| 'decrypted-route';
-export const availableCommands = ['encrypt', 'decrypt'] as const;
-export type IKindCommand = (typeof availableCommands)[number];
-
-export type IKindDefaultOption = 'file' | 'output';
-
-export interface ICommandProps {
-	command: string;
-	description: string;
-	options: Record<string, IOptionProps>;
-	action?: (...args: any[]) => void;
-}
-
-export interface IOptionProps {
-	command: string;
-	argument: string | null;
-	short: string | string[] | null;
-	description: string;
-	default: string | boolean | null;
-}
+import {
+	IKindDefaultOption,
+	IOptionProps,
+	IKindKeyer,
+	IKindCommand,
+	ICommandProps,
+} from './interfaces/keyer.interfaces';
 
 // Props
 export const helpMessage = '(add --help for additional information)';
@@ -47,6 +30,14 @@ export const defaultOptions: Record<IKindDefaultOption, IOptionProps> = {
 		description: 'route file output',
 		default: null,
 	},
+	salt: {
+		command: '--salt',
+		argument: '<salt>',
+		short: '-s',
+		description: 'secret salt',
+		default: null,
+		isRequired: true,
+	},
 };
 
 export const encryptOptions: Record<IKindDefaultOption, IOptionProps> = {
@@ -60,6 +51,7 @@ export const encryptOptions: Record<IKindDefaultOption, IOptionProps> = {
 		description: 'route where file encrypted will create',
 		default: defaultFiles.encryptedRoute,
 	},
+	salt: defaultOptions.salt,
 };
 
 export const decryptOptions: Record<IKindDefaultOption, IOptionProps> = {
@@ -72,6 +64,7 @@ export const decryptOptions: Record<IKindDefaultOption, IOptionProps> = {
 		description: 'route where file will decrypted',
 		default: defaultFiles.decryptedRoute,
 	},
+	salt: defaultOptions.salt,
 };
 
 export const keyserOptions: Record<IKindKeyer, IOptionProps> = {
@@ -113,6 +106,7 @@ export const commands: Record<IKindCommand, ICommandProps> = {
 		options: decryptOptions,
 		action: (arg: Record<IKindDefaultOption, string>) => {
 			console.log('decrypt', arg);
+			const { file, output } = arg;
 		},
 	},
 };

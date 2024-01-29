@@ -4,23 +4,19 @@ import { dirname } from 'node:path';
 import { decryptAny, encryptAny } from '.';
 import { createCli } from './cli';
 import { defaultFiles } from './cli-props';
+import { IKeyerCommandProps } from './interfaces/keyer.interfaces';
 
 // Keyer script
-export const keyerCommand = (props?: {
-	encryptArg?: string;
-	encryptedArg?: string;
-	decryptedArg?: string;
-}) => {
-	console.log('keyerCommand', props);
-	const { encryptArg, encryptedArg, decryptedArg } = props ?? {};
+export const keyerCommand = (props: IKeyerCommandProps) => {
+	const { encryptRoute, encryptedRoute, decryptedRoute } = props ?? {};
 	const rl = createInterface({
 		input: process.stdin,
 		output: process.stdout,
 	});
 
-	const encryptFile = encryptArg ?? defaultFiles.encryptRoute;
-	const encryptedFile = encryptedArg ?? defaultFiles.encryptRoute;
-	const decryptedFile = decryptedArg ?? defaultFiles.decryptedRoute;
+	const encryptFile = encryptRoute ?? defaultFiles.encryptRoute;
+	const encryptedFile = encryptedRoute ?? defaultFiles.encryptRoute;
+	const decryptedFile = decryptedRoute ?? defaultFiles.decryptedRoute;
 
 	// Question for kind of crypto
 	rl.question(
@@ -56,7 +52,7 @@ export const keyerCommand = (props?: {
 						secretSalt: salt,
 						toDecrypt: hash,
 					});
-					if (!!decryptedArg) {
+					if (!!decryptedFile) {
 						// Verfiy if file exist
 						createFolderAndFile(decryptedFile);
 						// Create env file
@@ -70,6 +66,10 @@ export const keyerCommand = (props?: {
 			});
 		}
 	);
+};
+
+export const encryptCommand = (props: { file: string; output: string }) => {
+	
 };
 
 const createFolderAndFile = (file: string) => {
