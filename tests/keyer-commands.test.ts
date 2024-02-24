@@ -1,10 +1,11 @@
 import { resolve } from 'node:path';
 
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
-import { outputFolder } from './constants/paths.contant';
+import { originalLogs, outputFolder } from './constants/common.constant';
 import { decryptCommand, encryptCommand } from '../src/commands';
 
 describe('commands', () => {
+	// COMMON VARIABLES AND FUNCTIONS
 	const inputFile = resolve(outputFolder, 'test-input.txt');
 	const encryptedFile = resolve(outputFolder, 'test-encrypted.txt');
 	const decryptedFile = resolve(outputFolder, 'test-decrypted.txt');
@@ -15,8 +16,14 @@ describe('commands', () => {
 	const createEncryptedFile = () =>
 		encryptCommand({ file: inputFile, output: encryptedFile, salt });
 	const createDecryptedFile = () =>
-		decryptCommand({ file: encryptedFile, output: decryptedFile, salt });
+		decryptCommand({
+			file: encryptedFile,
+			output: decryptedFile,
+			salt,
+			createOutput: true,
+		});
 
+	//* COMMON AFTER AND BEFORE FUNCTIONS
 	afterEach(() => {
 		// After each test, delete the files
 		const files = [inputFile, encryptedFile, decryptedFile];
@@ -24,7 +31,14 @@ describe('commands', () => {
 			if (existsSync(file)) unlinkSync(file);
 		});
 	});
-	it('encryptCommand -> should encrypt a file', () => {
+	beforeAll(() => {
+		originalLogs.log = console.log;
+		console.log = jest.fn();
+	});
+	afterAll(() => (console.log = originalLogs.log));
+    
+	//* -> TESTS
+	it('encryptCommand -> should encrypt a file', async () => {
 		// Create the input file
 		createInputFile();
 		// Create the encrypted file
@@ -41,7 +55,6 @@ describe('commands', () => {
 		createDecryptedFile();
 		// Verify that the decrypted file exists and is equal to the original
 		expect(existsSync(decryptedFile)).toBe(true);
-        console.log(readFileSync(decryptedFile, 'utf-8'))
 		expect(readFileSync(decryptedFile, 'utf-8')).toBe(originalText);
 	});
 });
