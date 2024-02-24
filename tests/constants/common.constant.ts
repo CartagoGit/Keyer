@@ -15,11 +15,12 @@ export const commonAfterAndBefore = () => {
 			if (existsSync(file)) unlinkSync(file);
 		});
 	});
-	beforeAll(() => {
-		originalLogs.log = console.log;
-		console.log = jest.fn();
-	});
-	afterAll(() => (console.log = originalLogs.log));
+	// Clean console logs
+	// beforeAll(() => {
+	// 	originalLogs.log = console.log;
+	// 	console.log = jest.fn();
+	// });
+	// afterAll(() => (console.log = originalLogs.log));
 };
 
 export const createInputFile = () =>

@@ -6,25 +6,26 @@ import {
 	salt,
 } from './constants/common.constant';
 
+// COMMON VARIABLES AND FUNCTIONS
+export const createEncryptedFile = () =>
+	encrypt({ secretSalt: salt, toEncrypt: testAny.text, showLog: false });
+export const createEncryptedAnyFile = (toEncrypt: any) =>
+	encryptAny({
+		secretSalt: salt,
+		toEncrypt,
+		showLog: false,
+	});
+export const createDecryptedFile = (saltModified = salt) =>
+	decrypt({
+		secretSalt: saltModified,
+		toDecrypt: createEncryptedFile(),
+		showLog: false,
+	});
+export const createDecryptedAnyFile = (
+	toDecrypt: string,
+	saltModified = salt
+) => decryptAny({ secretSalt: saltModified, toDecrypt, showLog: false });
 describe('Methods', () => {
-	// COMMON VARIABLES AND FUNCTIONS
-	const createEncryptedFile = () =>
-		encrypt({ secretSalt: salt, toEncrypt: testAny.text, showLog: false });
-	const createEncryptedAnyFile = (toEncrypt: any) =>
-		encryptAny({
-			secretSalt: salt,
-			toEncrypt,
-			showLog: false,
-		});
-	const createDecryptedFile = (saltModified = salt) =>
-		decrypt({
-			secretSalt: saltModified,
-			toDecrypt: createEncryptedFile(),
-			showLog: false,
-		});
-	const createDecryptedAnyFile = (toDecrypt: string, saltModified = salt) =>
-		decryptAny({ secretSalt: saltModified, toDecrypt, showLog: false });
-
 	//* COMMON AFTER AND BEFORE FUNCTIONS
 	commonAfterAndBefore();
 
@@ -83,23 +84,7 @@ describe('Methods', () => {
 		);
 		expect(decryptedObject).toStrictEqual(testAny.object);
 	});
-	it('decryptAny() -> Must decrypt any kind of valid types', () => {
-		// Check with inner types
-		Object.values(testAny).forEach((value) => {
-			if (isValidType(value)) {
-				const valueDecrypted = createDecryptedAnyFile(
-					createEncryptedAnyFile(value)
-				);
-				if (value === undefined)
-					return expect(valueDecrypted).toBeUndefined();
-				expect(valueDecrypted).toStrictEqual(value);
-			} else {
-				expect(() =>
-					createDecryptedAnyFile(createEncryptedAnyFile(value))
-				).toThrow('Invalid type');
-			}
-		});
-	});
+
 	it('decrypt() and decryptAny() -> Not must be decrypt a hash with a wrong salt', () => {
 		expect(() => createDecryptedFile('wrongSalt')).toThrow();
 		expect(createDecryptedFile(salt)).toBe(testAny.text);
