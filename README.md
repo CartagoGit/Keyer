@@ -64,12 +64,81 @@ Options:
 
 ## Library
 
-### To use methods
+> Básic Methods
+
+````Typescript
+import {encrypt, decrypt, encryptAny, decryptAny}
+````
+
+````Typescript
+encrypt(props: {
+	toEncrypt: string;
+	secretSalt: string;
+	showLog?: boolean;
+}) => string
+````
+
+````Typescript
+encryptAny(props: {
+	toEncrypt: any;
+	secretSalt: string;
+	showLog?: boolean;
+}) => string
+````
+
+````Typescript
+decrypt(props: {
+	toDecrypt: string;
+	secretSalt: string;
+	showLog?: boolean;
+}) => string
+````
+
+````Typescript
+decryptAny(props: {
+	toDecrypt: string;
+	secretSalt: string;
+	showLog?: boolean;
+}) => any
+````
+
+> Commands Methods
+
+```Typescript
+import {keyerCommand, encryptCommand, decryptCommand}
+```
+
+```Typescript
+keyerCommand({
+	encryptRoute: string;
+	encryptedRoute: string;
+	decryptedRoute: string;
+}) => void
+```
+
+```Typescript
+encryptCommand({
+	file: string;
+	output: string;
+	salt: string;
+}) => void
+```
+
+```Typescript
+decryptCommand({
+	file: string;
+	output: string;
+	salt: string;
+    	createOutput?: boolean // (default:false)
+}) => void
+```
+
+### Usage basic methods methods
 
 For Example:
 
 ```Typescript
-import {encrypt, decrypt, encryptAny, decriptAny}
+import {encrypt, decrypt, encryptAny, decryptAny}
 
 const salt = "This is just a secret salt that you must hide for others";
 const apiKey = 'api_false_example_to_show'
@@ -86,7 +155,7 @@ const apiKeyDecrypted = decrypt({
     secretSalt: salt
 })
 
-// NOTE - With an object or other var kind
+// NOTE - Example - With an object or other var kind
 const objectToEncrypt = {
     name: 'Joe',
     prename: 'Doe',
@@ -100,7 +169,7 @@ const objectHash = encryptAny({
 })
 
 // to get decrypt Hash
-const objectDecrypted({
+const objectDecrypted = decryptAny({
     toDecrypt: objectHash,
     secretSalt: salt
 })
@@ -120,33 +189,3 @@ encrypt({
 })
 ```
 
-## Methods for console and create files encrypted/decrypted
-
-```Typescript
-import {keyerCommand, encryptCommand, decryptCommand}
-```
-
-```Typescript
-keyerCommand({
-	encryptRoute: string;
-	encryptedRoute: string;
-	decryptedRoute: string;
-})
-```
-
-```Typescript
-encryptCommand({
-	file: string;
-	output: string;
-	salt: string;
-})
-```
-
-```Typescript
-decryptCommand({
-	file: string;
-	output: string;
-	salt: string;
-    createOutput?: boolean // (default:false)
-})
-```
