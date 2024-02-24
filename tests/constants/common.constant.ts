@@ -15,11 +15,11 @@ export const commonAfterAndBefore = () => {
 			if (existsSync(file)) unlinkSync(file);
 		});
 	});
-	// beforeAll(() => {
-	// 	originalLogs.log = console.log;
-	// 	console.log = jest.fn();
-	// });
-	// afterAll(() => (console.log = originalLogs.log));
+	beforeAll(() => {
+		originalLogs.log = console.log;
+		console.log = jest.fn();
+	});
+	afterAll(() => (console.log = originalLogs.log));
 };
 
 export const createInputFile = () =>
@@ -40,6 +40,7 @@ export class TestClass {
 export const testAny = {
 	text: 'Any Test Text',
 	object: { name: 'Test', age: 25 },
+	basicObject: new Object({ name: 'Test', age: 25 }),
 	invalidObject: {
 		name: 'Test',
 		age: 25,
@@ -66,6 +67,7 @@ export const testAny = {
 export const validTestTypes = {
 	text: true,
 	object: true,
+	basicObject: true,
 	invalidObject: false,
 	array: true,
 	number: true,
