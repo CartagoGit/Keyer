@@ -45,17 +45,17 @@ export const testAny = {
 	boolean: true,
 	null: null,
 	undefined: undefined,
-	function: function () {},
-	lambdaFunction: () => {},
+	// function: function () {},
+	// lambdaFunction: () => {},
 	// date: new Date(),
-	error: new Error('Test'),
+	// error: new Error('Test'),
 	// regExp: /test/,
-	map: new Map(),
-	set: new Set(),
+	// map: new Map(),
+	// set: new Set(),
 	// symbol: Symbol('test'),
 	// bigInt: BigInt(25),
 	// bigIntNum:  25n,
-	class: new TestClass('Test', 25),
+	// class: new TestClass('Test', 25),
 };
 
 

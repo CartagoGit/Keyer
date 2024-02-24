@@ -69,27 +69,36 @@ describe('Methods', () => {
 		expect(decrypted).toBe(testAny.text);
 	});
 	it('decryptAny() -> Must decrypt a hash a return an any type', () => {
-		if (!isValidType(testAny)) {
-			return expect(() => decrypted).toThrow();
-		}
-		const decrypted = createDecryptedAnyFile(
-			createEncryptedAnyFile(testAny)
-		);
+		if (isValidType(testAny)) {
+			const decrypted = createDecryptedAnyFile(
+				createEncryptedAnyFile(testAny)
+			);
 
-		let parsedAny = { ...testAny };
-		for (const [key, value] of Object.entries(parsedAny)) {
-			if (value === undefined)
-				delete parsedAny[key as keyof typeof parsedAny];
+			let parsedAny = { ...testAny };
+			for (const [key, value] of Object.entries(parsedAny)) {
+				if (value === undefined)
+					delete parsedAny[key as keyof typeof parsedAny];
+			}
+			expect(decrypted).toStrictEqual(parsedAny);
+		} else {
+			expect(() =>
+				createDecryptedAnyFile(createEncryptedAnyFile(testAny))
+			).toThrow();
 		}
-		expect(decrypted).toStrictEqual(parsedAny);
-		// Object.entries(testAny).forEach(([key, value]) => {
-		// 	const valueDecrypted = createDecryptedAnyFile(
-		// 		createEncryptedAnyFile(value)
-		// 	);
-		// 	if (value === undefined)
-		// 		return expect(valueDecrypted).toBeUndefined();
-		// 	expect(valueDecrypted).toStrictEqual(value);
-		// });
+		Object.values(testAny).forEach((value) => {
+			if (isValidType(value)) {
+				const valueDecrypted = createDecryptedAnyFile(
+					createEncryptedAnyFile(value)
+				);
+				if (value === undefined)
+					return expect(valueDecrypted).toBeUndefined();
+				expect(valueDecrypted).toStrictEqual(value);
+			} else {
+				expect(() =>
+					createDecryptedAnyFile(createEncryptedAnyFile(value))
+				).toThrow('Invalid type');
+			}
+		});
 	});
 	it('decrypt() and decryptAny() -> Not must be decrypt a hash with a wrong salt', () => {});
 });

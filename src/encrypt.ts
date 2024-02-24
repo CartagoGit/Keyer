@@ -1,4 +1,5 @@
 import { createCipheriv, randomBytes, scryptSync } from 'node:crypto';
+import { replacer } from './helpers/json.helper';
 import { isValidType } from './constants/common.constant';
 
 export const encrypt = (props: {
@@ -13,7 +14,6 @@ export const encrypt = (props: {
 	const encrypted = Buffer.concat([cipher.update(toEncrypt), cipher.final()]);
 	const result = `${iv.toString('hex')}:${encrypted.toString('hex')}`;
 	if (showLog) console.log('Text encrypted: ', result);
-	console.log('result', result);
 	return result;
 };
 
@@ -25,7 +25,7 @@ export const encryptAny = (props: {
 	const { toEncrypt, secretSalt, showLog = true } = props;
 	if (!isValidType(toEncrypt)) throw new Error('Invalid type');
 	const result = encrypt({
-		toEncrypt: JSON.stringify(toEncrypt),
+		toEncrypt: JSON.stringify(toEncrypt, replacer),
 		secretSalt,
 		showLog: false,
 	});
