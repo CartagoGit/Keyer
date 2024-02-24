@@ -63,7 +63,7 @@ export const testAny = {
 	// regExp: testRegExp,
 	// map: testMap,
 	// set: testSet,
-	// symbol: testSymbol,
+	symbol: testSymbol,
 	// bigInt: testBigInt,
 	// bigIntNum: testBigIntNum,
 };
