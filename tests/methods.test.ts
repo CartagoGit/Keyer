@@ -35,13 +35,15 @@ describe('Methods', () => {
 	});
 	it('Check valid types for encrypt/decrypt any -> Must check valid/invalid types ', () => {
 		expect(isValidType(testAny.object)).toBe(true);
-		// if (isValidType(testAny)) expect(isValidType(testAny)).toBe(true);
-		// else expect(isValidType(testAny)).toBe(false);
+		expect(isValidType(testAny.invalidObject)).toBe(false);
 
-		// Object.values(testAny).forEach((value) => {
-		// 	if (isValidType(value)) expect(isValidType(value)).toBe(true);
-		// 	else expect(isValidType(value)).toBe(false);
-		// });
+		if (isValidType(testAny)) expect(isValidType(testAny)).toBe(true);
+		else expect(isValidType(testAny)).toBe(false);
+
+		Object.values(testAny).forEach((value) => {
+			if (isValidType(value)) expect(isValidType(value)).toBe(true);
+			else expect(isValidType(value)).toBe(false);
+		});
 	});
 
 	it('encryptAny() -> Must encrypt any thing and return a hash', () => {

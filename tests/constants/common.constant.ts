@@ -40,6 +40,11 @@ export class TestClass {
 export const testAny = {
 	text: 'Any Test Text',
 	object: { name: 'Test', age: 25 },
+	invalidObject: {
+		name: 'Test',
+		age: 25,
+		invalid: new TestClass('Test', 25),
+	},
 	array: ['Test', 25],
 	number: 25,
 	boolean: true,
@@ -57,5 +62,3 @@ export const testAny = {
 	// bigIntNum:  25n,
 	// class: new TestClass('Test', 25),
 };
-
-

@@ -5,8 +5,8 @@ import {
 	decryptedFile,
 	encryptedFile,
 	inputFile,
-	testText,
 	salt,
+	testAny,
 } from './constants/common.constant';
 import { decryptCommand, encryptCommand } from '../src/commands';
 
@@ -35,7 +35,7 @@ describe('commands', () => {
 		// Verify that the encrypted file exists and is different from the test
 		expect(existsSync(inputFile)).toBe(true);
 		expect(existsSync(encryptedFile)).toBe(true);
-		expect(readFileSync(encryptedFile, 'utf-8')).not.toBe(testText);
+		expect(readFileSync(encryptedFile, 'utf-8')).not.toBe(testAny.text);
 	});
 	it('decryptCommand -> Must decrypt a file', () => {
 		createInputFile();
@@ -44,6 +44,6 @@ describe('commands', () => {
 		createDecryptedFile();
 		// Verify that the decrypted file exists and is equal to the test
 		expect(existsSync(decryptedFile)).toBe(true);
-		expect(readFileSync(decryptedFile, 'utf-8')).toBe(testText);
+		expect(readFileSync(decryptedFile, 'utf-8')).toBe(testAny.text);
 	});
 });
