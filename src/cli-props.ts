@@ -1,4 +1,4 @@
-import { decryptCommand, encryptCommand } from './keyer';
+import { decryptCommand, encryptCommand } from '.';
 import type {
 	IKindDefaultOption,
 	IOptionProps,

@@ -49,16 +49,15 @@
 		"roots": [
 			"./tests"
 		],
-		"testMatch": [
-			"./tests/**/*.test.ts",
-			"./tests/**/*.test.tsx"
-		],
 		"testEnvironment": "node",
 		"preset": "ts-jest",
-		"globals": {
-			"ts-jest": {
-				"tsConfig": "tsconfig.test.json"
-			}
+		"transform": {
+			"^.+\\.tsx?$": [
+				"ts-jest",
+				{
+					"tsconfig": "tsconfig.test.json"
+				}
+			]
 		}
 	}
 }

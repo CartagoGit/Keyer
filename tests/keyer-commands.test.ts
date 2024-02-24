@@ -1,7 +1,8 @@
 import { resolve } from 'node:path';
-import { decryptCommand, encryptCommand } from '../src';
+
 import { readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import { outputFolder } from './constants/paths.contant';
+import { decryptCommand, encryptCommand } from '../src/commands';
 
 describe('encryptCommand', () => {
 	it('should encrypt a file', () => {
