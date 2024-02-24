@@ -1,11 +1,25 @@
-export const invalidTypes = [Function, BigInt] as const;
+export const invalidInstances = [Function, BigInt, Symbol] as const;
+
+export const invalidTypes = ['symbol', 'function', 'bigint'] as const;
 
 export const isValidType = (value: any): boolean => {
-	if (invalidTypes.some((invalidType) => value instanceof invalidType))
+	if (
+		invalidInstances.some(
+			(invalidInstance) => value instanceof invalidInstance
+		)
+	)
 		return false;
-	if (value === null || typeof value !== 'object') return true;
+	if (
+		value === null ||
+		invalidTypes.every((invalidType) => typeof value !== invalidType)
+	)
+		return true;
 	if (Array.isArray(value)) return value.every(isValidType);
-	if (Object.getPrototypeOf(value) !== Object.prototype && !!value.constructor) return false;
+	if (
+		Object.getPrototypeOf(value) !== Object.prototype &&
+		!!value.constructor
+	)
+		return false;
 	for (const values of Object.values(value)) {
 		if (!isValidType(values)) return false;
 	}
