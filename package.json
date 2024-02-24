@@ -1,0 +1,65 @@
+{
+	"name": "@cartago-git/keyer",
+	"version": "1.1.6",
+	"description": "Secret encrypter for keys, api-keys and envs",
+	"main": "src/index.ts",
+	"scripts": {
+		"keyer": "npx tsx src/keyer.ts",
+		"encrypt": "npx tsx src/encrypt.ts",
+		"decrypt": "npx tsx src/decrypt.ts",
+		"cli": "npx tsx src/keyer.ts --envfile='.env'",
+		"test": "jest",
+		"test:exit": "jest || exit 1 && echo 'holiiiiiii'",
+		"pack": "npm pack --pack-destination=./pack",
+		"create:cli": "npx tsc",
+		"pack:online": "npm run test:exit && npm run create:cli && npm publish"
+	},
+	"keywords": [
+		"api",
+		"key",
+		"encrypt",
+		"crypto",
+		"decrypt",
+		"keyer",
+		"Cartago",
+		"cartago-git/keyer"
+	],
+	"author": "Cartago",
+	"license": "MIT",
+	"dependencies": {
+		"commander": "^12.0.0"
+	},
+	"devDependencies": {
+		"@types/jest": "^29.5.12",
+		"@types/node": "^20.11.20",
+		"jest": "^29.7.0",
+		"ts-jest": "^29.1.2",
+		"typescript": "^5.3.3"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/CartagoGit/Keyer.git"
+	},
+	"bugs": {
+		"url": "https://github.com/CartagoGit/Keyer/issues"
+	},
+	"homepage": "https://github.com/CartagoGit/Keyer#readme",
+	"bin": {
+		"keyer": "bin/run-cli.js"
+	},
+	"jest": {
+		"roots": [
+			"./tests"
+		],
+		"testEnvironment": "node",
+		"preset": "ts-jest",
+		"transform": {
+			"^.+\\.tsx?$": [
+				"ts-jest",
+				{
+					"tsconfig": "tsconfig.test.json"
+				}
+			]
+		}
+	}
+}

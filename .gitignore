@@ -1,0 +1,9 @@
+node_modules
+*.tgz
+pack
+.vscode
+keyer
+bin
+
+/package-lock.json
+/bun.lockb
