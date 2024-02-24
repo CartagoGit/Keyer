@@ -74,7 +74,7 @@ import {encrypt, decrypt, encryptAny, decryptAny}
 encrypt(props: {
 	toEncrypt: string;
 	secretSalt: string;
-	showLog?: boolean;
+	showLog?: boolean;  // (default:true)
 }) => string
 ````
 
@@ -82,7 +82,7 @@ encrypt(props: {
 encryptAny(props: {
 	toEncrypt: any;
 	secretSalt: string;
-	showLog?: boolean;
+	showLog?: boolean;  // (default:true)
 }) => string
 ````
 
@@ -90,7 +90,7 @@ encryptAny(props: {
 decrypt(props: {
 	toDecrypt: string;
 	secretSalt: string;
-	showLog?: boolean;
+	showLog?: boolean;  // (default:true)
 }) => string
 ````
 
@@ -98,7 +98,7 @@ decrypt(props: {
 decryptAny(props: {
 	toDecrypt: string;
 	secretSalt: string;
-	showLog?: boolean;
+	showLog?: boolean;  // (default:true)
 }) => any
 ````
 
