@@ -203,7 +203,7 @@ encrypt({
 -   null
 -   undefined
 -   object - (except with props with disallowed types or instances)
--   array - (except with props with disallowed types or instances)
+-   array - (except if It has some disallowed type or instance)
 
 > instanceof
 

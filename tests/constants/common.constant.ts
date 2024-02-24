@@ -37,7 +37,32 @@ export class TestClass {
 	constructor(public name: string, public age: number) {}
 	someFunction() {}
 }
-export const testAny = {
+
+const types = [
+	'text',
+	'object',
+	'basicObject',
+	'invalidObject',
+	'array',
+	'number',
+	'boolean',
+	'null',
+	'undefined',
+	'function',
+	'lambdaFunction',
+	'date',
+	'error',
+	'regExp',
+	'regExpChain',
+	'map',
+	'set',
+	'symbol',
+	'bigInt',
+	'bigIntNum',
+	'class',
+] as const;
+
+export const testAny: Record<(typeof types)[number], any> = {
 	text: 'Any Test Text',
 	object: { name: 'Test', age: 25 },
 	basicObject: new Object({ name: 'Test', age: 25 }),
@@ -54,8 +79,9 @@ export const testAny = {
 	function: function () {},
 	lambdaFunction: () => {},
 	date: new Date(),
+	regExp: new RegExp('test'),
+	regExpChain: /test/,
 	error: new Error('Test'),
-	regExp: /test/,
 	map: new Map(),
 	set: new Set(),
 	symbol: Symbol('test'),
@@ -64,7 +90,7 @@ export const testAny = {
 	class: new TestClass('Test', 25),
 };
 
-export const validTestTypes = {
+export const validTestTypes: Record<(typeof types)[number], boolean> = {
 	text: true,
 	object: true,
 	basicObject: true,
@@ -79,6 +105,7 @@ export const validTestTypes = {
 	date: true,
 	error: true,
 	regExp: true,
+	regExpChain: true,
 	map: true,
 	set: true,
 	symbol: false,
