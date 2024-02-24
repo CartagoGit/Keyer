@@ -34,7 +34,7 @@ describe('commands', () => {
 	cleanLogsInTests();
 
 	//* -> TESTS
-	it('encryptCommand -> should encrypt a file', async () => {
+	it('encryptCommand -> Must encrypt a file', async () => {
 		// Create the input file
 		createInputFile();
 		// Create the encrypted file
@@ -44,7 +44,7 @@ describe('commands', () => {
 		expect(existsSync(encryptedFile)).toBe(true);
 		expect(readFileSync(encryptedFile, 'utf-8')).not.toBe(originalText);
 	});
-	it('decryptCommand -> should decrypt a file', () => {
+	it('decryptCommand -> Must decrypt a file', () => {
 		createInputFile();
 		createEncryptedFile();
 		// Decrypt the encrypted file
