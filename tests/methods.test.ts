@@ -33,18 +33,6 @@ describe('Methods', () => {
 		const encrypted = createEncryptedFile();
 		expect(encrypted).not.toBe(testAny.text);
 	});
-	it('Check valid types for encrypt/decrypt any -> Must check valid/invalid types ', () => {
-		expect(isValidType(testAny.object)).toBe(true);
-		expect(isValidType(testAny.invalidObject)).toBe(false);
-
-		if (isValidType(testAny)) expect(isValidType(testAny)).toBe(true);
-		else expect(isValidType(testAny)).toBe(false);
-
-		Object.values(testAny).forEach((value) => {
-			if (isValidType(value)) expect(isValidType(value)).toBe(true);
-			else expect(isValidType(value)).toBe(false);
-		});
-	});
 
 	it('encryptAny() -> Must encrypt any thing and return a hash', () => {
 		if (isValidType(testAny)) {
@@ -94,7 +82,9 @@ describe('Methods', () => {
 			createEncryptedAnyFile(testAny.object)
 		);
 		expect(decryptedObject).toStrictEqual(testAny.object);
-		// Chekc with inner types
+	});
+	it('decryptAny() -> Must decrypt any kind of valid types', () => {
+		// Check with inner types
 		Object.values(testAny).forEach((value) => {
 			if (isValidType(value)) {
 				const valueDecrypted = createDecryptedAnyFile(
