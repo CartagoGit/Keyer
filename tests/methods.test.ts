@@ -1,14 +1,15 @@
-import { decrypt, encrypt, encryptAny } from '../src';
+import { decrypt, decryptAny, encrypt, encryptAny } from '../src';
 import {
 	commonAfterAndBefore,
-	originalText,
+	testAny,
+	testText,
 	salt,
 } from './constants/common.constant';
 
 describe('Methods', () => {
 	// COMMON VARIABLES AND FUNCTIONS
 	const createEncryptedFile = () =>
-		encrypt({ secretSalt: salt, toEncrypt: originalText, showLog: false });
+		encrypt({ secretSalt: salt, toEncrypt: testText, showLog: false });
 	const createEncryptedAnyFile = (toEncrypt: any) =>
 		encryptAny({
 			secretSalt: salt,
@@ -22,22 +23,40 @@ describe('Methods', () => {
 			showLog: false,
 		});
 	const createDecryptedAnyFile = (toDecrypt: string) =>
-		decrypt({ secretSalt: salt, toDecrypt, showLog: false });
+		decryptAny({ secretSalt: salt, toDecrypt, showLog: false });
 
 	//* COMMON AFTER AND BEFORE FUNCTIONS
 	commonAfterAndBefore();
 
 	//* -> TESTS
-	it('encrypt() -> Must encrypt a text and return a hash', () => {});
+	it('encrypt() -> Must encrypt a text and return a hash', () => {
+		const encrypted = createEncryptedFile();
+		expect(encrypted).not.toBe(testText);
+	});
 
 	it('encryptAny() -> Must encrypt any thing and return a hash', () => {
-		// Test 2
+		const encrypted = createEncryptedAnyFile(testAny);
+		expect(encrypted).not.toBe(testAny);
+		Object.values(testAny).forEach((value) => {
+			const valueEncrypted = createEncryptedAnyFile(value);
+			expect(valueEncrypted).not.toBe(value);
+		});
 	});
 	it('decrypt() -> Must decrypt a hash and return a text', () => {
-		// Test 3
+		const decrypted = createDecryptedFile();
+		expect(decrypted).toBe(testText);
 	});
 	it('decryptAny() -> Must decrypt a hash a return an any type', () => {
-		// Test 4
+		const decrypted = createDecryptedAnyFile(
+			createEncryptedAnyFile(testAny)
+		);
+		expect(decrypted).toStrictEqual(testAny);
+		Object.values(testAny).forEach((value) => {
+			const valueDecrypted = createDecryptedAnyFile(
+				createEncryptedAnyFile(value)
+			);
+			expect(valueDecrypted).toStrictEqual(value);
+		});
 	});
 	it('decrypt() and decryptAny() -> Not must be decrypt a hash with a wrong salt', () => {});
 });
