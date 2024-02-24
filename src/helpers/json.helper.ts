@@ -11,7 +11,7 @@ export const replacer = (_key: string, value: any): any => {
 export const reviver = (_key: string, value: any): any => {
 	if (value === 'undefined') return undefined;
 	if (value?.errorData) return new Error(value.errorData);
-	if (value?.datDatae) return new Date(value.dateData);
+	if (value?.dateData) return new Date(value.dateData);
 	if (value?.regExpData) {
 		const [regex, flags] = value.regExp.split('/');
 		return new RegExp(regex, flags);

@@ -95,11 +95,11 @@ decrypt(props: {
 ```
 
 ```Typescript
-decryptAny(props: {
+decryptAny<T = any>(props: {
 	toDecrypt: string;
 	secretSalt: string;
 	showLog?: boolean;  // (default:true)
-}) => any
+}) => T
 ```
 
 > Commands Methods
