@@ -1,8 +1,5 @@
 ## 1.1.6
 
 -   Add Tests
--   Checks for kind typeof
-
-## Known Issues
-
--   Cannot handle bigints, symbols, functions or classes without toString method or not serializable objects
+-   Checks for kind typeof and possible values
+-   Renew documentation

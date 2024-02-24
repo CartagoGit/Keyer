@@ -16,14 +16,14 @@ describe('Methods', () => {
 			toEncrypt,
 			showLog: false,
 		});
-	const createDecryptedFile = () =>
+	const createDecryptedFile = (saltModified = salt) =>
 		decrypt({
-			secretSalt: salt,
+			secretSalt: saltModified,
 			toDecrypt: createEncryptedFile(),
 			showLog: false,
 		});
-	const createDecryptedAnyFile = (toDecrypt: string) =>
-		decryptAny({ secretSalt: salt, toDecrypt, showLog: false });
+	const createDecryptedAnyFile = (toDecrypt: string, saltModified = salt) =>
+		decryptAny({ secretSalt: saltModified, toDecrypt, showLog: false });
 
 	//* COMMON AFTER AND BEFORE FUNCTIONS
 	commonAfterAndBefore();
@@ -34,13 +34,14 @@ describe('Methods', () => {
 		expect(encrypted).not.toBe(testAny.text);
 	});
 	it('Check valid types for encrypt/decrypt any -> Must check valid/invalid types ', () => {
-		if (isValidType(testAny)) expect(isValidType(testAny)).toBe(true);
-		else expect(isValidType(testAny)).toBe(false);
+		expect(isValidType(testAny.object)).toBe(true);
+		// if (isValidType(testAny)) expect(isValidType(testAny)).toBe(true);
+		// else expect(isValidType(testAny)).toBe(false);
 
-		Object.values(testAny).forEach((value) => {
-			if (isValidType(value)) expect(isValidType(value)).toBe(true);
-			else expect(isValidType(value)).toBe(false);
-		});
+		// Object.values(testAny).forEach((value) => {
+		// 	if (isValidType(value)) expect(isValidType(value)).toBe(true);
+		// 	else expect(isValidType(value)).toBe(false);
+		// });
 	});
 
 	it('encryptAny() -> Must encrypt any thing and return a hash', () => {
@@ -69,6 +70,7 @@ describe('Methods', () => {
 		expect(decrypted).toBe(testAny.text);
 	});
 	it('decryptAny() -> Must decrypt a hash a return an any type', () => {
+		// Check with valid and invalid types
 		if (isValidType(testAny)) {
 			const decrypted = createDecryptedAnyFile(
 				createEncryptedAnyFile(testAny)
@@ -85,6 +87,12 @@ describe('Methods', () => {
 				createDecryptedAnyFile(createEncryptedAnyFile(testAny))
 			).toThrow();
 		}
+		// Check with valid type
+		const decryptedObject = createDecryptedAnyFile(
+			createEncryptedAnyFile(testAny.object)
+		);
+		expect(decryptedObject).toStrictEqual(testAny.object);
+		// Chekc with inner types
 		Object.values(testAny).forEach((value) => {
 			if (isValidType(value)) {
 				const valueDecrypted = createDecryptedAnyFile(
@@ -100,5 +108,14 @@ describe('Methods', () => {
 			}
 		});
 	});
-	it('decrypt() and decryptAny() -> Not must be decrypt a hash with a wrong salt', () => {});
+	it('decrypt() and decryptAny() -> Not must be decrypt a hash with a wrong salt', () => {
+		expect(() => createDecryptedFile('wrongSalt')).toThrow();
+		expect(createDecryptedFile(salt)).toBe(testAny.text);
+		expect(() =>
+			createDecryptedAnyFile(createEncryptedAnyFile(testAny), 'wrongSalt')
+		).toThrow();
+		expect(
+			createDecryptedAnyFile(createEncryptedAnyFile(testAny.object), salt)
+		).toStrictEqual(testAny.object);
+	});
 });
