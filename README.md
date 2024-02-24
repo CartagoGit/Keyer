@@ -133,6 +133,8 @@ decryptCommand({
 }) => void
 ```
 
+---
+
 ### Usage basic methods methods
 
 For Example:
