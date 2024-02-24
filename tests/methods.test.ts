@@ -33,13 +33,21 @@ describe('Methods', () => {
 		const encrypted = createEncryptedFile();
 		expect(encrypted).not.toBe(testAny.text);
 	});
+	it('Check valid types for encrypt/decrypt any -> Must check valid/invalid types ', () => {
+		expect(isValidType(testAny)).toBe(true);
+		Object.values(testAny).forEach((value) => {
+			if (isValidType(value)) expect(isValidType(value)).toBe(true);
+			else expect(isValidType(value)).toBe(false);
+		});
+	});
 
 	it('encryptAny() -> Must encrypt any thing and return a hash', () => {
 		const encrypted = createEncryptedAnyFile(testAny);
 		expect(encrypted).not.toBe(testAny);
 		Object.values(testAny).forEach((value) => {
 			const valueEncrypted = createEncryptedAnyFile(value);
-			expect(valueEncrypted).not.toBe(value);
+			if (isValidType(value)) expect(valueEncrypted).not.toBe(value);
+			else expect(() => valueEncrypted).toThrow('Invalid type');
 		});
 	});
 	it('decrypt() -> Must decrypt a hash and return a text', () => {
@@ -47,12 +55,12 @@ describe('Methods', () => {
 		expect(decrypted).toBe(testAny.text);
 	});
 	it('decryptAny() -> Must decrypt a hash a return an any type', () => {
+		if (!isValidType(testAny)) {
+			return expect(() => decrypted).toThrow();
+		}
 		const decrypted = createDecryptedAnyFile(
 			createEncryptedAnyFile(testAny)
 		);
-		if (isValidType(testAny)) {
-			return expect(() => decrypted).toThrow();
-		}
 
 		let parsedAny = { ...testAny };
 		for (const [key, value] of Object.entries(parsedAny)) {

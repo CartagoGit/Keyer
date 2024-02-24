@@ -1,5 +1,6 @@
 import { createCipheriv, randomBytes, scryptSync } from 'node:crypto';
 import { replacer } from './helpers/json.helper';
+import { isValidType } from './constants/common.constant';
 
 export const encrypt = (props: {
 	toEncrypt: string;
@@ -23,6 +24,7 @@ export const encryptAny = (props: {
 	showLog?: boolean;
 }): string => {
 	const { toEncrypt, secretSalt, showLog = true } = props;
+	if (!isValidType(toEncrypt)) throw new Error('Invalid type');
 	const result = encrypt({
 		toEncrypt: JSON.stringify(toEncrypt, replacer),
 		secretSalt,
