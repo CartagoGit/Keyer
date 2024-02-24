@@ -1,9 +1,9 @@
 import { decrypt, decryptAny, encrypt, encryptAny } from '../src';
+import { isValidType } from '../src/constants/common.constant';
 import {
 	commonAfterAndBefore,
 	testAny,
 	salt,
-	TestClass,
 } from './constants/common.constant';
 
 describe('Methods', () => {
@@ -37,10 +37,10 @@ describe('Methods', () => {
 	it('encryptAny() -> Must encrypt any thing and return a hash', () => {
 		const encrypted = createEncryptedAnyFile(testAny);
 		expect(encrypted).not.toBe(testAny);
-		// Object.values(testAny).forEach((value) => {
-		// 	const valueEncrypted = createEncryptedAnyFile(value);
-		// 	expect(valueEncrypted).not.toBe(value);
-		// });
+		Object.values(testAny).forEach((value) => {
+			const valueEncrypted = createEncryptedAnyFile(value);
+			expect(valueEncrypted).not.toBe(value);
+		});
 	});
 	it('decrypt() -> Must decrypt a hash and return a text', () => {
 		const decrypted = createDecryptedFile();
@@ -50,6 +50,10 @@ describe('Methods', () => {
 		const decrypted = createDecryptedAnyFile(
 			createEncryptedAnyFile(testAny)
 		);
+		if (isValidType(testAny)) {
+			return expect(() => decrypted).toThrow();
+		}
+
 		let parsedAny = { ...testAny };
 		for (const [key, value] of Object.entries(parsedAny)) {
 			if (value === undefined)

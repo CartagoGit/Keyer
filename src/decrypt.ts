@@ -1,5 +1,6 @@
 import { scryptSync, createDecipheriv } from 'node:crypto';
 import { reviver } from './helpers/json.helper';
+import { isValidType } from './constants/common.constant';
 
 export const decrypt = (props: {
 	toDecrypt: string;
@@ -37,6 +38,7 @@ export const decryptAny = <T = any>(props: {
 		}),
 		reviver
 	);
+	if (isValidType(result)) throw new Error('Invalid type');
 	if (showLog) console.log('Any variable decrypted: ', result);
 	return result;
 };
