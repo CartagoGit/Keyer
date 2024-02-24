@@ -34,7 +34,7 @@ describe('commands', () => {
 	cleanLogsInTests();
 
 	//* -> TESTS
-	it('encryptCommand -> Must encrypt a file', async () => {
+	it('encryptCommand -> Must encrypt a file', () => {
 		// Create the input file
 		createInputFile();
 		// Create the encrypted file
