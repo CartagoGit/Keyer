@@ -56,7 +56,7 @@ export const testAny = {
 	boolean: testBoolean,
 	null: testNull,
 	undefined: testUndefined,
-	// function: testFunction,
+	function: testFunction,
 	// lambdaFunction: testLambdaFunction,
 	// date: testDate,
 	// error: testError,

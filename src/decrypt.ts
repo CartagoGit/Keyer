@@ -1,4 +1,5 @@
 import { scryptSync, createDecipheriv } from 'node:crypto';
+import { reviver } from './helpers/json.helper';
 
 export const decrypt = (props: {
 	toDecrypt: string;
@@ -33,7 +34,8 @@ export const decryptAny = (props: {
 			toDecrypt,
 			secretSalt,
 			showLog: false,
-		})
+		}),
+		reviver
 	);
 	if (showLog) console.log('Any variable decrypted: ', result);
 	return result;
