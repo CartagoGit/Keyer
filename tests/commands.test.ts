@@ -1,6 +1,7 @@
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import {
 	commonAfterAndBefore,
+	createInputFile,
 	decryptedFile,
 	encryptedFile,
 	inputFile,
@@ -11,8 +12,7 @@ import { decryptCommand, encryptCommand } from '../src/commands';
 
 describe('commands', () => {
 	// COMMON VARIABLES AND FUNCTIONS
-	const createInputFile = () =>
-		writeFileSync(inputFile, originalText, 'utf-8');
+
 	const createEncryptedFile = () =>
 		encryptCommand({ file: inputFile, output: encryptedFile, salt });
 	const createDecryptedFile = () =>

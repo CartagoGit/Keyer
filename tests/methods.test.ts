@@ -1,7 +1,28 @@
-import { commonAfterAndBefore } from './constants/common.constant';
+import { decrypt, encrypt, encryptAny } from '../src';
+import {
+	commonAfterAndBefore,
+	originalText,
+	salt,
+} from './constants/common.constant';
 
 describe('Methods', () => {
 	// COMMON VARIABLES AND FUNCTIONS
+	const createEncryptedFile = () =>
+		encrypt({ secretSalt: salt, toEncrypt: originalText, showLog: false });
+	const createEncryptedAnyFile = (toEncrypt: any) =>
+		encryptAny({
+			secretSalt: salt,
+			toEncrypt,
+			showLog: false,
+		});
+	const createDecryptedFile = () =>
+		decrypt({
+			secretSalt: salt,
+			toDecrypt: createEncryptedFile(),
+			showLog: false,
+		});
+	const createDecryptedAnyFile = (toDecrypt: string) =>
+		decrypt({ secretSalt: salt, toDecrypt, showLog: false });
 
 	//* COMMON AFTER AND BEFORE FUNCTIONS
 	commonAfterAndBefore();

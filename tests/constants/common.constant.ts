@@ -1,4 +1,4 @@
-import { existsSync, unlinkSync } from 'node:fs';
+import { existsSync, unlinkSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 export let originalLogs = {
@@ -21,6 +21,9 @@ export const commonAfterAndBefore = () => {
 	});
 	afterAll(() => (console.log = originalLogs.log));
 };
+
+export const createInputFile = () =>
+	writeFileSync(inputFile, originalText, 'utf-8');
 
 export const outputFolder = resolve(__dirname, '..', 'outputs');
 export const inputFile = resolve(outputFolder, 'test-input.txt');
