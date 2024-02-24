@@ -29,8 +29,10 @@ export const commonAfterAndBefore = () => {
 	});
 };
 
-export const createInputFile = () =>
+export const createInputFile = (): string => {
 	writeFileSync(inputFile, testAny.text, 'utf-8');
+	return inputFile;
+};
 
 export const outputFolder = resolve(__dirname, '..', 'outputs');
 export const inputFile = resolve(outputFolder, 'test-input.txt');

@@ -1,5 +1,6 @@
-import { spawnSync } from 'child_process';
-import * as path from 'path';
+import { spawnSync } from 'node:child_process';
+import * as path from 'node:path';
+import * as fs from 'node:fs';
 import {
 	commonAfterAndBefore,
 	createInputFile,
@@ -9,21 +10,53 @@ import {
 	salt,
 } from './constants/common.constant';
 
-const cliPath = path.join(__dirname, '..', 'src', 'keyer.ts');
+// const cliPath = path.join(__dirname, '..', 'src', 'keyer.ts');
 
 describe('CLI Tests', () => {
-	// MOCKS
-	jest.mock(cliPath, () => ({
-		encryptCommand: jest.fn(),
-		decryptCommand: jest.fn(),
-	}));
+	const outputPath = path.join(__dirname, 'outputs');
+	const jsCliFile = path.join(outputPath, 'keyer.js');
+	const jsKeyerFile = path.join(outputPath, 'index.js');
 	// COMMON AFTER AND BEFORE
 	commonAfterAndBefore();
 	afterEach(() => {
 		jest.clearAllMocks();
 	});
+	beforeAll(() => {
+		const tsConfigFile = path.resolve(__dirname, '..', 'tsconfig.json');
+		const compileResult = spawnSync('npx', [
+			'tsc',
+			// '../.',
+			'--project',
+			path.resolve(__dirname, '..', 'tsconfig.json'),
+			'--outDir',
+			outputPath,
+		]);
+		if (compileResult?.error) throw compileResult.error;
+		jest.resetModules();
+		// MOCKS
+		jest.mock(jsKeyerFile, () => ({
+			encryptCommand: jest.fn(),
+			decryptCommand: jest.fn(),
+		}));
+	});
+	afterAll(() => {
+		jest.resetModules();
+		const files = fs.readdirSync(outputPath);
+		files.forEach((file) => {
+			const filePath = path.join(outputPath, file);
+			if (
+				fs.lstatSync(filePath).isFile() &&
+				path.extname(filePath) === '.js'
+			) {
+				fs.unlinkSync(filePath);
+			} else if (fs.lstatSync(filePath).isDirectory()) {
+				fs.rmdirSync(filePath, { recursive: true });
+			}
+		});
+	});
 	it('Test Mocks correctly', () => {
-		const { encryptCommand, decryptCommand } = require(cliPath);
+		const { encryptCommand, decryptCommand } = require(jsKeyerFile);
+		createInputFile();
 		encryptCommand({ file: inputFile, output: encryptedFile, salt });
 		expect(encryptCommand).toHaveBeenCalled();
 		expect(encryptCommand).toHaveBeenCalledWith({
@@ -40,10 +73,10 @@ describe('CLI Tests', () => {
 	});
 	it('Must execute encrypt command', () => {
 		createInputFile();
-		const { encryptCommand } = require(cliPath);
+		const { encryptCommand } = require(jsKeyerFile);
 		console.log(encryptCommand);
-		const result = spawnSync('tsx', [
-			cliPath,
+		const result = spawnSync('node', [
+			jsCliFile,
 			'encrypt',
 			'--file',
 			inputFile,
@@ -61,9 +94,9 @@ describe('CLI Tests', () => {
 	});
 
 	// it('Must execute decrypt command', () => {
-	// 	const { decryptCommand } = require(cliPath);
+	// 	const { decryptCommand } = require(jsCliPath);
 	// 	const result = spawnSync('node', [
-	// 		cliPath,
+	// 		jsCliFile,
 	// 		'decrypt',
 	// 		'--file',
 	// 		'test.txt',
