@@ -2,14 +2,14 @@ export const replacer = (_key: string, value: any): any => {
 	if (value === undefined) return 'undefined';
 	if (value instanceof Function)
 		return JSON.stringify({ function: value.toString(), name: value.name });
-	if (typeof value === 'symbol') return { symbol: value.toString() };
-	if (value instanceof Error) return { error: value.message };
-	if (value instanceof Date) return { date: value.toISOString() };
-	if (value instanceof RegExp) return { regExp: value.toString() };
-	if (value instanceof Map) return { map: Array.from(value.entries()) };
-	if (value instanceof Set) return { set: Array.from(value.values()) };
-	if (value instanceof BigInt) return { bigInt: value.toString() };
-	if (typeof value === 'symbol') return { symbol: value.toString() };
+	if (typeof value === 'symbol') return { symbolData: value.toString() };
+	if (value instanceof Error) return { errorData: value.message };
+	if (value instanceof Date) return { dateData: value.toISOString() };
+	if (value instanceof RegExp) return { regExpData: value.toString() };
+	if (value instanceof Map) return { mapData: Array.from(value.entries()) };
+	if (value instanceof Set) return { setData: Array.from(value.values()) };
+	if (value instanceof BigInt) return { bigIntData: value.toString() };
+	if (typeof value === 'symbol') return { symbolData: value.toString() };
 	return value;
 };
 
@@ -26,15 +26,15 @@ export const reviver = (_key: string, value: any): any => {
 		Object.defineProperty(desiarizeFunc, 'name', { value: name });
 		return desiarizeFunc;
 	}
-	if (value?.error) return new Error(value.error);
-	if (value?.date) return new Date(value.date);
-	if (value?.regExp) {
+	if (value?.errorData) return new Error(value.errorData);
+	if (value?.datDatae) return new Date(value.dateData);
+	if (value?.regExpData) {
 		const [regex, flags] = value.regExp.split('/');
 		return new RegExp(regex, flags);
 	}
-	if (value?.map) return new Map(value.map);
-	if (value?.set) return new Set(value.set);
-	if (value?.bigInt) return BigInt(value.bigInt);
-	if (value?.symbol) return Symbol(value.symbol);
+	if (value?.mapData) return new Map(value.mapData);
+	if (value?.setData) return new Set(value.setData);
+	if (value?.bigIntData) return BigInt(value.bigIntData);
+	if (value?.symbolData) return Symbol(value.symbolData);
 	return value;
 };
