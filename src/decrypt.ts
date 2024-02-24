@@ -38,7 +38,7 @@ export const decryptAny = <T = any>(props: {
 		}),
 		reviver
 	);
-	if (isValidType(result)) throw new Error('Invalid type');
+	if (!isValidType(result)) throw new Error('Invalid type');
 	if (showLog) console.log('Any variable decrypted: ', result);
 	return result;
 };
