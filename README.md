@@ -66,41 +66,41 @@ Options:
 
 > Básic Methods
 
-````Typescript
+```Typescript
 import {encrypt, decrypt, encryptAny, decryptAny}
-````
+```
 
-````Typescript
+```Typescript
 encrypt(props: {
 	toEncrypt: string;
 	secretSalt: string;
 	showLog?: boolean;  // (default:true)
 }) => string
-````
+```
 
-````Typescript
+```Typescript
 encryptAny(props: {
 	toEncrypt: any;
 	secretSalt: string;
 	showLog?: boolean;  // (default:true)
 }) => string
-````
+```
 
-````Typescript
+```Typescript
 decrypt(props: {
 	toDecrypt: string;
 	secretSalt: string;
 	showLog?: boolean;  // (default:true)
 }) => string
-````
+```
 
-````Typescript
+```Typescript
 decryptAny(props: {
 	toDecrypt: string;
 	secretSalt: string;
 	showLog?: boolean;  // (default:true)
 }) => any
-````
+```
 
 > Commands Methods
 
@@ -191,3 +191,32 @@ encrypt({
 })
 ```
 
+## NOTES
+
+### Allowed types or instances to encrypt and decrypt
+
+> typeof
+
+-   string
+-   number
+-   boolean
+-   null
+-   undefined
+-   object - (except with props with disallowed types or instances)
+-   array - (except with props with disallowed types or instances)
+
+> instanceof
+
+-   Object
+-   Date
+-   RegExp
+-   Map
+-   Set
+-   Error
+
+### Disallowed special types or instances to encrypt and decrypt
+
+-   Function
+-   Symbol
+-   Bigint
+-   any other non-serializable object
