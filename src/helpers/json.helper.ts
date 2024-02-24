@@ -7,14 +7,17 @@ export const replacer = (_key: string, value: any): any => {
 };
 
 export const reviver = (_key: string, value: any): any => {
-	console.log(_key, value, typeof value === 'string' && value.includes('function'));
+	console.log(
+		_key,
+		value,
+		typeof value === 'string' && value.includes('function')
+	);
 	if (value === 'undefined') return undefined;
 	if (typeof value === 'string' && value.includes('function')) {
 		const { function: func, name } = JSON.parse(value);
 		const desiarizeFunc = new Function(`return ${func}`)();
 		Object.defineProperty(desiarizeFunc, 'name', { value: name });
-        console.log (desiarizeFunc);
-        return desiarizeFunc;
+		return desiarizeFunc;
 	}
 	return value;
 };

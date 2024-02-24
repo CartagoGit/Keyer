@@ -52,14 +52,23 @@ describe('Methods', () => {
 		);
 		let parsedAny = { ...testAny };
 		for (const [key, value] of Object.entries(parsedAny)) {
-			if (value === undefined) delete parsedAny[key as keyof typeof parsedAny];
+			if (value === undefined)
+				delete parsedAny[key as keyof typeof parsedAny];
+			if (typeof value === 'function') {
+				delete parsedAny[key as keyof typeof parsedAny];
+				delete decrypted[key as keyof typeof decrypted];
+			}
 		}
-		// expect(decrypted).toStrictEqual(parsedAny);
-		Object.values(testAny).forEach((value) => {
-            if(value === undefined) {}
+		expect(decrypted).toStrictEqual(parsedAny);
+		Object.entries(testAny).forEach(([key, value]) => {
 			const valueDecrypted = createDecryptedAnyFile(
 				createEncryptedAnyFile(value)
 			);
+			if (value === undefined)
+				return expect(valueDecrypted).toBeUndefined();
+			if (typeof value === 'function')
+				return expect(value()).toBe(valueDecrypted());
+
 			expect(valueDecrypted).toStrictEqual(value);
 		});
 	});
