@@ -23,11 +23,11 @@ export const decrypt = (props: {
 	return result;
 };
 
-export const decryptAny = (props: {
+export const decryptAny = <T = any>(props: {
 	toDecrypt: string;
 	secretSalt: string;
 	showLog?: boolean;
-}): any => {
+}): T => {
 	const { toDecrypt, secretSalt, showLog = true } = props;
 	const result = JSON.parse(
 		decrypt({

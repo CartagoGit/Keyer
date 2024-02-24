@@ -23,7 +23,7 @@ export const commonAfterAndBefore = () => {
 };
 
 export const createInputFile = () =>
-	writeFileSync(inputFile, testText, 'utf-8');
+	writeFileSync(inputFile, testAny.text, 'utf-8');
 
 export const outputFolder = resolve(__dirname, '..', 'outputs');
 export const inputFile = resolve(outputFolder, 'test-input.txt');
@@ -31,39 +31,29 @@ export const encryptedFile = resolve(outputFolder, 'test-encrypted.txt');
 export const decryptedFile = resolve(outputFolder, 'test-decrypted.txt');
 
 export const salt = 'salt';
-export const testText = 'Any Test Text';
-export const testObject = { name: 'Test', age: 25 };
-export const testArray = ['Test', 25];
-export const testNumber = 25;
-export const testBoolean = true;
-export const testNull = null;
-export const testUndefined = undefined;
-export const testFunction = function () {};
-export const testLambdaFunction = () => {};
-export const testDate = new Date();
-export const testError = new Error('Test');
-export const testRegExp = /test/;
-export const testMap = new Map();
-export const testSet = new Set();
-export const testSymbol = Symbol('test');
-export const testBigInt = BigInt(25);
-export const testBigIntNum = 25n;
+
+export class TestClass {
+	prop: boolean = true;
+	constructor(public name: string, public age: number) {}
+	someFunction() {}
+}
 export const testAny = {
-	text: testText,
-	object: testObject,
-	array: testArray,
-	number: testNumber,
-	boolean: testBoolean,
-	null: testNull,
-	undefined: testUndefined,
-	function: testFunction,
-	lambdaFunction: testLambdaFunction,
-	// date: testDate,
-	error: testError,
-	// regExp: testRegExp,
-	map: testMap,
-	set: testSet,
-	// symbol: testSymbol,
-	// bigInt: testBigInt,
-	// bigIntNum: testBigIntNum,
+	text: 'Any Test Text',
+	object: { name: 'Test', age: 25 },
+	array: ['Test', 25],
+	number: 25,
+	boolean: true,
+	null: null,
+	undefined: undefined,
+	function: function () {},
+	lambdaFunction: () => {},
+	// date: new Date(),
+	error: new Error('Test'),
+	// regExp: /test/,
+	map: new Map(),
+	set: new Set(),
+	// symbol: Symbol('test'),
+	// bigInt: BigInt(25),
+	// bigIntNum:  25n,
+	class: new TestClass('Test', 25),
 };
