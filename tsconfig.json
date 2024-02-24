@@ -1,10 +1,5 @@
 {
 	"compilerOptions": {
-		//* -> For Tsx
-		// "target": "ES2022",
-		// "module": "ES2022",
-		// "moduleResolution": "Bundler",
-		//* -> For Tsc creating js
 		"module": "CommonJS",
 		"target": "ES5",
 		"moduleResolution": "Node",
@@ -16,5 +11,6 @@
 		"skipDefaultLibCheck": true,
 		"skipLibCheck": true,
 		"resolveJsonModule": true
-	}
+	},
+	"include": ["src/**/*.ts", "src/**/*.tsx"]
 }

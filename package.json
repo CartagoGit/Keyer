@@ -47,11 +47,11 @@
 	},
 	"jest": {
 		"roots": [
-			"./src",
 			"./tests"
 		],
 		"testMatch": [
-			"<rootDir>/tests/**/*.test.ts"
+			"./tests/**/*.test.ts",
+			"./tests/**/*.test.tsx"
 		],
 		"testEnvironment": "node",
 		"preset": "ts-jest",
