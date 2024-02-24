@@ -37,7 +37,7 @@ export const inputFile = resolve(outputFolder, 'test-input.txt');
 export const encryptedFile = resolve(outputFolder, 'test-encrypted.txt');
 export const decryptedFile = resolve(outputFolder, 'test-decrypted.txt');
 
-export const salt = 'salt';
+export const salt = 'Just a salt';
 
 export class TestClass {
 	prop: boolean = true;

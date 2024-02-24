@@ -4,6 +4,7 @@ pack
 .vscode
 keyer
 bin
+!/bin/run-cli.js
 
 /package-lock.json
 /bun.lockb
