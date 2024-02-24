@@ -18,29 +18,31 @@ describe('CLI Tests', () => {
 	const jsKeyerFile = path.join(outputPath, 'index.js');
 	// COMMON AFTER AND BEFORE
 	commonAfterAndBefore();
-	afterEach(() => {
-		jest.clearAllMocks();
-	});
 	beforeAll(() => {
 		const tsConfigFile = path.resolve(__dirname, '..', 'tsconfig.json');
 		const compileResult = spawnSync('npx', [
 			'tsc',
-			// '../.',
 			'--project',
-			path.resolve(__dirname, '..', 'tsconfig.json'),
+			tsConfigFile,
 			'--outDir',
 			outputPath,
 		]);
 		if (compileResult?.error) throw compileResult.error;
 		jest.resetModules();
+	});
+	beforeEach(() => {
 		// MOCKS
 		jest.mock(jsKeyerFile, () => ({
 			encryptCommand: jest.fn(),
 			decryptCommand: jest.fn(),
 		}));
 	});
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
 	afterAll(() => {
 		jest.resetModules();
+		jest.clearAllMocks();
 		const files = fs.readdirSync(outputPath);
 		files.forEach((file) => {
 			const filePath = path.join(outputPath, file);
