@@ -135,7 +135,7 @@ decryptCommand({
 
 ---
 
-### Usage basic methods methods
+### Usage basic methods
 
 For Example:
 
