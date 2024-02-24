@@ -1,9 +1,0 @@
-node_modules
-*.tgz
-pack
-.vscode
-keyer
-
-
-/package-lock.json
-/bun.lockb
