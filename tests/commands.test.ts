@@ -1,16 +1,16 @@
-import { resolve } from 'node:path';
-
-import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
-import { cleanLogsInTests, outputFolder } from './constants/common.constant';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import {
+	commonAfterAndBefore,
+	decryptedFile,
+	encryptedFile,
+	inputFile,
+	originalText,
+	salt,
+} from './constants/common.constant';
 import { decryptCommand, encryptCommand } from '../src/commands';
 
 describe('commands', () => {
 	// COMMON VARIABLES AND FUNCTIONS
-	const inputFile = resolve(outputFolder, 'test-input.txt');
-	const encryptedFile = resolve(outputFolder, 'test-encrypted.txt');
-	const decryptedFile = resolve(outputFolder, 'test-decrypted.txt');
-	const salt = 'salt';
-	const originalText = 'Original Test Text';
 	const createInputFile = () =>
 		writeFileSync(inputFile, originalText, 'utf-8');
 	const createEncryptedFile = () =>
@@ -24,14 +24,7 @@ describe('commands', () => {
 		});
 
 	//* COMMON AFTER AND BEFORE FUNCTIONS
-	afterEach(() => {
-		// After each test, delete the files
-		const files = [inputFile, encryptedFile, decryptedFile];
-		files.forEach((file) => {
-			if (existsSync(file)) unlinkSync(file);
-		});
-	});
-	cleanLogsInTests();
+	commonAfterAndBefore();
 
 	//* -> TESTS
 	it('encryptCommand -> Must encrypt a file', () => {

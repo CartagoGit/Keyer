@@ -1,14 +1,14 @@
-import { cleanLogsInTests } from './constants/common.constant';
+import { commonAfterAndBefore } from './constants/common.constant';
 
 describe('Methods', () => {
 	// COMMON VARIABLES AND FUNCTIONS
-	const salt = 'salt';
 
 	//* COMMON AFTER AND BEFORE FUNCTIONS
-	cleanLogsInTests();
+	commonAfterAndBefore();
 
 	//* -> TESTS
 	it('encrypt() -> Must encrypt a text and return a hash', () => {});
+
 	it('encryptAny() -> Must encrypt any thing and return a hash', () => {
 		// Test 2
 	});
