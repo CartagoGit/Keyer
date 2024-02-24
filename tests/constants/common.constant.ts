@@ -8,3 +8,11 @@ export let originalLogs = {
 	warn: console.warn,
 	info: console.info,
 };
+
+export const cleanLogsInTests = () => {
+	beforeAll(() => {
+		originalLogs.log = console.log;
+		console.log = jest.fn();
+	});
+	afterAll(() => (console.log = originalLogs.log));
+};

@@ -1,7 +1,7 @@
 import { resolve } from 'node:path';
 
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
-import { originalLogs, outputFolder } from './constants/common.constant';
+import { cleanLogsInTests, outputFolder } from './constants/common.constant';
 import { decryptCommand, encryptCommand } from '../src/commands';
 
 describe('commands', () => {
@@ -31,12 +31,8 @@ describe('commands', () => {
 			if (existsSync(file)) unlinkSync(file);
 		});
 	});
-	beforeAll(() => {
-		originalLogs.log = console.log;
-		console.log = jest.fn();
-	});
-	afterAll(() => (console.log = originalLogs.log));
-    
+	cleanLogsInTests();
+
 	//* -> TESTS
 	it('encryptCommand -> should encrypt a file', async () => {
 		// Create the input file
