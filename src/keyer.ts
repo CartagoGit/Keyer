@@ -1,6 +1,7 @@
 import { createInterface } from 'node:readline';
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
+
 import { decryptAny, encryptAny } from '.';
 import { createCli } from './cli';
 import { defaultFiles } from './cli-props';

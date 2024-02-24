@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import pkg from '../package.json';
-import { keyerCommand } from './keyer';
+import { keyerCommand } from '.';
 import { keyerOptions, commands, helpMessage } from './cli-props';
 import {
 	IKindCommand,
@@ -58,7 +58,7 @@ const createOption = (props: {
 	optionProps: IOptionProps;
 	command: Command;
 }) => {
-    const { optionProps, command } = props;
+	const { optionProps, command } = props;
 	const {
 		command: optionCommand,
 		argument,

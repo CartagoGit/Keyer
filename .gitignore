@@ -3,6 +3,6 @@ node_modules
 pack
 .vscode
 keyer
+bin
 
 /package-lock.json
-/.env
