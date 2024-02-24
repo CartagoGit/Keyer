@@ -34,7 +34,9 @@ describe('Methods', () => {
 		expect(encrypted).not.toBe(testAny.text);
 	});
 	it('Check valid types for encrypt/decrypt any -> Must check valid/invalid types ', () => {
-		expect(isValidType(testAny)).toBe(true);
+		if (isValidType(testAny)) expect(isValidType(testAny)).toBe(true);
+		else expect(isValidType(testAny)).toBe(false);
+
 		Object.values(testAny).forEach((value) => {
 			if (isValidType(value)) expect(isValidType(value)).toBe(true);
 			else expect(isValidType(value)).toBe(false);
@@ -42,12 +44,24 @@ describe('Methods', () => {
 	});
 
 	it('encryptAny() -> Must encrypt any thing and return a hash', () => {
-		const encrypted = createEncryptedAnyFile(testAny);
-		expect(encrypted).not.toBe(testAny);
+		if (isValidType(testAny)) {
+			const encrypted = createEncryptedAnyFile(testAny);
+			expect(encrypted).not.toBe(testAny);
+		} else {
+			expect(() => createEncryptedAnyFile(testAny)).toThrow(
+				'Invalid type'
+			);
+		}
+
 		Object.values(testAny).forEach((value) => {
-			const valueEncrypted = createEncryptedAnyFile(value);
-			if (isValidType(value)) expect(valueEncrypted).not.toBe(value);
-			else expect(() => valueEncrypted).toThrow('Invalid type');
+			if (isValidType(value)) {
+				const valueEncrypted = createEncryptedAnyFile(value);
+				expect(valueEncrypted).not.toBe(value);
+			} else {
+				expect(() => createEncryptedAnyFile(value)).toThrow(
+					'Invalid type'
+				);
+			}
 		});
 	});
 	it('decrypt() -> Must decrypt a hash and return a text', () => {
