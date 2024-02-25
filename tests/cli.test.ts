@@ -8,29 +8,24 @@ import {
 	inputFile,
 	salt,
 } from './constants/common.constant';
-
-const srcPath = path.resolve(__dirname, '..', 'src');
-const tsIndex = path.join(srcPath, 'index.ts');
-const tsKeyer = path.join(srcPath, 'keyer.ts');
+import pkg from '../package.json';
 
 describe('CLI Tests', () => {
+	const srcPath = path.resolve(__dirname, '..', 'src');
+	const tsCommands = path.join(srcPath, 'commands.ts');
+	const tsKeyer = path.join(srcPath, 'keyer.ts');
 	// COMMON AFTER AND BEFORE
 	commonAfterAndBefore();
 
-	beforeEach(() => {
-		jest.mock(tsIndex, () => ({
-			encryptCommand: jest.fn(),
-			decryptCommand: jest.fn(),
-		}));
-	});
-
-	afterEach(() => {
-		jest.clearAllMocks();
-	});
-
 	// -> TESTS
 	it('Test Mocks correctly', () => {
-		const { encryptCommand, decryptCommand } = require(tsIndex);
+		jest.mock(tsCommands, () => {
+			return {
+				encryptCommand: jest.fn(),
+				decryptCommand: jest.fn(),
+			};
+		});
+		const { encryptCommand, decryptCommand } = require(tsCommands);
 		createInputFile();
 		const encryptProps = { file: inputFile, output: encryptedFile, salt };
 		const decryptedProps = {
@@ -46,8 +41,25 @@ describe('CLI Tests', () => {
 		expect(decryptCommand).toHaveBeenCalled();
 		expect(decryptCommand).toHaveBeenCalledWith(decryptedProps);
 	});
-	it('Must execute encrypt command', () => {
-		const { encryptCommand } = require(tsIndex);
+
+	it('Command version must be called', () => {
+		const resultCommon = spawnSync('npx', ['tsx', tsKeyer, '--version']);
+		const resultShort = spawnSync('npx', ['tsx', tsKeyer, '-v']);
+		expect(resultCommon.stdout.toString()).toContain(pkg.version);
+		expect(resultShort.stdout.toString()).toContain(pkg.version);
+	});
+
+	it('Command help must be called', () => {
+		const resultCommon = spawnSync('npx', ['tsx', tsKeyer, '--help']);
+		const resultShort = spawnSync('npx', ['tsx', tsKeyer, '-h']);
+		expect(resultCommon.stdout.toString()).toContain(
+			'Usage: keyer [options] [command]'
+		);
+		expect(resultShort.stdout.toString()).toContain(
+			'Usage: keyer [options] [command]'
+		);
+	});
+	it('Must execute encrypt with normal options', () => {
 		createInputFile();
 		const result = spawnSync('npx', [
 			'tsx',
@@ -60,28 +72,179 @@ describe('CLI Tests', () => {
 			'--salt',
 			salt,
 		]);
-		console.log(result);
-		expect(encryptCommand).toHaveBeenCalledWith({
-			file: inputFile,
-			output: encryptedFile,
+		const resulText = result.stdout.toString();
+		expect(resulText).toContain('Encrypting file');
+		expect(resulText).toContain('Encrypted in');
+		expect(resulText).toContain(
+			`Props: ${JSON.stringify({
+				file: inputFile,
+				output: encryptedFile,
+				salt,
+			})}`
+		);
+	});
+	it('Must execute encrypt with short options', () => {
+		createInputFile();
+		const result = spawnSync('npx', [
+			'tsx',
+			tsKeyer,
+			'encrypt',
+			'-f',
+			inputFile,
+			'-o',
+			encryptedFile,
+			'-s',
 			salt,
-		});
+		]);
+		const resulText = result.stdout.toString();
+		expect(resulText).toContain('Encrypting file');
+		expect(resulText).toContain('Encrypted in');
+		expect(resulText).toContain(
+			`Props: ${JSON.stringify({
+				file: inputFile,
+				output: encryptedFile,
+				salt,
+			})}`
+		);
 	});
 
-	// it('Must execute decrypt command', () => {
-	// 	const { decryptCommand } = require(jsCliPath);
-	// 	const result = spawnSync('node', [
-	// 		jsCliFile,
-	// 		'decrypt',
-	// 		'--file',
-	// 		'test.txt',
-	// 		'--salt',
-	// 		salt,
-	// 	]);
-	// 	expect(decryptCommand).toHaveBeenCalledWith({
-	// 		file: 'test.txt',
-	// 		salt,
-	// 	});
-	// 	// Asegúrate de que la salida sea la esperada
-	// });
+	it('Must execute decrypt with normal options', () => {
+		createInputFile();
+		spawnSync('npx', [
+			'tsx',
+			tsKeyer,
+			'encrypt',
+			'--file',
+			inputFile,
+			'--output',
+			encryptedFile,
+			'--salt',
+			salt,
+		]);
+		const result = spawnSync('npx', [
+			'tsx',
+			tsKeyer,
+			'decrypt',
+			'--file',
+			encryptedFile,
+			'--output',
+			decryptedFile,
+			'--salt',
+			salt,
+			'--create-output',
+		]);
+		const resulText = result.stdout.toString();
+		expect(resulText).toContain('Decrypting file');
+		expect(resulText).toContain('Decrypted');
+		expect(resulText).toContain(
+			`Props: ${JSON.stringify({
+				file: encryptedFile,
+				output: decryptedFile,
+				salt,
+				createOutput: true,
+			})}`
+		);
+	});
+	it('Must execute decrypt with short options', () => {
+		createInputFile();
+		spawnSync('npx', [
+			'tsx',
+			tsKeyer,
+			'encrypt',
+			'-f',
+			inputFile,
+			'-o',
+			encryptedFile,
+			'-s',
+			salt,
+		]);
+		const result = spawnSync('npx', [
+			'tsx',
+			tsKeyer,
+			'decrypt',
+			'-f',
+			encryptedFile,
+			'-o',
+			decryptedFile,
+			'-s',
+			salt,
+			'-co',
+		]);
+		const resulText = result.stdout.toString();
+		expect(resulText).toContain('Decrypting file');
+		expect(resulText).toContain('Decrypted');
+		expect(resulText).toContain(
+			`Props: ${JSON.stringify({
+				file: encryptedFile,
+				output: decryptedFile,
+				salt,
+				createOutput: true,
+			})}`
+		);
+	});
+	it('Command encrypt help must be called', () => {
+		const resultCommon = spawnSync('npx', [
+			'tsx',
+			tsKeyer,
+			'encrypt',
+			'--help',
+		]);
+		const resultShort = spawnSync('npx', ['tsx', tsKeyer, 'encrypt', '-h']);
+		expect(resultCommon.stdout.toString()).toContain(
+			'Usage: keyer encrypt [options]'
+		);
+		expect(resultShort.stdout.toString()).toContain(
+			'Usage: keyer encrypt [options]'
+		);
+	});
+	it('Command decrypt help must be called', () => {
+		const resultCommon = spawnSync('npx', [
+			'tsx',
+			tsKeyer,
+			'decrypt',
+			'--help',
+		]);
+		const resultShort = spawnSync('npx', ['tsx', tsKeyer, 'decrypt', '-h']);
+		expect(resultCommon.stdout.toString()).toContain(
+			'Usage: keyer decrypt [options]'
+		);
+		expect(resultShort.stdout.toString()).toContain(
+			'Usage: keyer decrypt [options]'
+		);
+	});
+	it('Command encrypt must fail with invalid file', () => {
+		const result = spawnSync('npx', [
+			'tsx',
+			tsKeyer,
+			'encrypt',
+			'--file',
+			'invalid-file.txt',
+			'--salt',
+			salt,
+		]);
+		expect(result.stderr.toString()).toContain('ENOENT');
+	});
+	it('Command decrypt must fail with invalid file', () => {
+		const result = spawnSync('npx', [
+			'tsx',
+			tsKeyer,
+			'decrypt',
+			'--file',
+			'invalid-file.txt',
+			'--salt',
+			salt,
+		]);
+		expect(result.stderr.toString()).toContain('ENOENT');
+	});
+	it('Command encrypt/decrypt must fail without required options', () => {
+		createInputFile();
+		const encryptResult = spawnSync('npx', ['tsx', tsKeyer, 'encrypt']);
+		expect(encryptResult.stderr.toString()).toContain(
+			'error: required option'
+		);
+		const decryptResult = spawnSync('npx', ['tsx', tsKeyer, 'decrypt']);
+		expect(decryptResult.stderr.toString()).toContain(
+			'error: required option'
+		);
+	});
 });

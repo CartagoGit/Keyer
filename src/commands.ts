@@ -63,6 +63,7 @@ export const encryptCommand = (props: IKeyerProps) => {
 	const { file, output, salt } = props;
 	if (!salt) throw new Error('Salt is required');
 	console.log(`Encrypting file ${file}...`);
+	console.log(`Props: ${JSON.stringify({ file, output, salt })}`);
 	// Encrypt envs and create hash file
 	const envs = readFileSync(file, 'utf-8');
 	const encrypted = encryptAny({
@@ -84,6 +85,9 @@ export const decryptCommand = (props: IKeyerDecryptProps) => {
 	const { file, output, salt, createOutput = false } = props;
 	if (!salt) throw new Error('Salt is required');
 	console.log(`Decrypting file ${file}...`);
+	console.log(
+		`Props: ${JSON.stringify({ file, output, salt, createOutput })}`
+	);
 	const hash = readFileSync(file, 'utf-8');
 	const decryptedVar = decryptAny({
 		secretSalt: salt,

@@ -8,8 +8,8 @@
 		"encrypt": "npx tsx src/encrypt.ts",
 		"decrypt": "npx tsx src/decrypt.ts",
 		"cli": "npx tsx src/keyer.ts --envfile='.env'",
-		"test": "jest",
-		"test:exit": "jest || exit 1 && echo 'holiiiiiii'",
+		"test": "jest --runInBand",
+		"test:exit": "npm run test || exit 1",
 		"pack": "npm pack --pack-destination=./pack",
 		"create:cli": "npx tsc",
 		"pack:online": "npm run test:exit && npm run create:cli && npm publish"
@@ -60,6 +60,10 @@
 					"tsconfig": "tsconfig.test.json"
 				}
 			]
-		}
+		},
+		"clearMocks": true,
+		"resetMocks": true,
+		"restoreMocks": true,
+		"resetModules": true
 	}
 }

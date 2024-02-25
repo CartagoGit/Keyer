@@ -16,7 +16,7 @@ export const createCli = () => {
 	program
 		.name('keyer')
 		.description(pkg.description)
-		.version(pkg.version, '-v', 'output Keyer current version')
+		.version(pkg.version, '-v, --version', 'output Keyer current version')
 		.showHelpAfterError(helpMessage)
 		.helpOption('-h, --help', 'output Keyer help')
 		.action((args: IKeyerCommandProps) => {
