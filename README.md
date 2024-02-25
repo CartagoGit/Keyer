@@ -22,7 +22,7 @@ or for global install
 
 ```Console
 Usage: keyer [options] or [command]
-    -v                                       output Keyer current version
+    -v, --version                            output Keyer current version
     -er, encrypt-route <encrypt-route>       route from file to encrypt (default: ".env")
     -edr, encrypted-route <encrypted-route>  route from file when it will be encrypted (default: "keyer/encrypted.txt")
     -dr, decrypted-route <decrypted-route>   route from file when it will be decrypted (default: "keyer/decrypted.txt")
