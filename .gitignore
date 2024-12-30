@@ -1,6 +1,7 @@
 node_modules
 *.tgz
-pack
+pack/*
+!pack/.gitkeep
 .vscode
 keyer
 bin
