@@ -1,6 +1,7 @@
-import { scryptSync, createDecipheriv } from 'node:crypto';
+import { scryptSync, createDecipheriv, CipherGCMTypes } from 'node:crypto';
 import { reviver } from './helpers/json.helper';
 import { isValidType } from './constants/common.constant';
+import { gunzipSync } from 'node:zlib';
 
 export const decrypt = (props: {
 	toDecrypt: string;
@@ -8,18 +9,24 @@ export const decrypt = (props: {
 	showLog?: boolean;
 }): string => {
 	const { toDecrypt, secretSalt, showLog = true } = props;
-	const [iv, encrypted] = toDecrypt.split(':');
-	const key = scryptSync(secretSalt, 'sal', 32);
+	const [salt, ivBase64, authTagBase64, encryptedBase64] = toDecrypt.split(':');
+	if(!salt || !ivBase64 || !authTagBase64 || !encryptedBase64) throw new Error('Invalid format');
+	const iv = Buffer.from(ivBase64, 'base64');
+	const authTag = Buffer.from(authTagBase64, 'base64');
+    const encrypted = Buffer.from(encryptedBase64, 'base64');
+	const key = scryptSync(secretSalt, salt, 32);
+	const algorithm: CipherGCMTypes = 'aes-256-gcm';
 	const decipher = createDecipheriv(
-		'aes-256-cbc',
+		algorithm,
 		key,
-		Buffer.from(iv, 'hex')
+		iv
 	);
+	decipher.setAuthTag(authTag);
 	const decrypted = Buffer.concat([
-		decipher.update(Buffer.from(encrypted, 'hex')),
+		decipher.update(encrypted),
 		decipher.final(),
 	]);
-	const result = decrypted.toString();
+	const result = gunzipSync(decrypted).toString();
 	if (showLog) console.log('Text decrypted: ', result);
 	return result;
 };
