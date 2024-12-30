@@ -43,15 +43,15 @@ describe('CLI Tests', () => {
 	});
 
 	it('Command version must be called', () => {
-		const resultCommon = spawnSync('npx', ['tsx', tsKeyer, '--version']);
-		const resultShort = spawnSync('npx', ['tsx', tsKeyer, '-v']);
+		const resultCommon = spawnSync('bun', [tsKeyer, '--version']);
+		const resultShort = spawnSync('bun', [tsKeyer, '-v']);
 		expect(resultCommon.stdout.toString()).toContain(pkg.version);
 		expect(resultShort.stdout.toString()).toContain(pkg.version);
 	});
 
 	it('Command help must be called', () => {
-		const resultCommon = spawnSync('npx', ['tsx', tsKeyer, '--help']);
-		const resultShort = spawnSync('npx', ['tsx', tsKeyer, '-h']);
+		const resultCommon = spawnSync('bun', [tsKeyer, '--help']);
+		const resultShort = spawnSync('bun', [tsKeyer, '-h']);
 		expect(resultCommon.stdout.toString()).toContain(
 			'Usage: keyer [options] [command]'
 		);
@@ -61,8 +61,7 @@ describe('CLI Tests', () => {
 	});
 	it('Must execute encrypt with normal options', () => {
 		createInputFile();
-		const result = spawnSync('npx', [
-			'tsx',
+		const result = spawnSync('bun', [
 			tsKeyer,
 			'encrypt',
 			'--file',
@@ -85,8 +84,7 @@ describe('CLI Tests', () => {
 	});
 	it('Must execute encrypt with short options', () => {
 		createInputFile();
-		const result = spawnSync('npx', [
-			'tsx',
+		const result = spawnSync('bun', [
 			tsKeyer,
 			'encrypt',
 			'-f',
@@ -110,8 +108,7 @@ describe('CLI Tests', () => {
 
 	it('Must execute decrypt with normal options', () => {
 		createInputFile();
-		spawnSync('npx', [
-			'tsx',
+		spawnSync('bun', [
 			tsKeyer,
 			'encrypt',
 			'--file',
@@ -121,8 +118,7 @@ describe('CLI Tests', () => {
 			'--salt',
 			salt,
 		]);
-		const result = spawnSync('npx', [
-			'tsx',
+		const result = spawnSync('bun', [
 			tsKeyer,
 			'decrypt',
 			'--file',
@@ -147,8 +143,7 @@ describe('CLI Tests', () => {
 	});
 	it('Must execute decrypt with short options', () => {
 		createInputFile();
-		spawnSync('npx', [
-			'tsx',
+		spawnSync('bun', [
 			tsKeyer,
 			'encrypt',
 			'-f',
@@ -158,8 +153,7 @@ describe('CLI Tests', () => {
 			'-s',
 			salt,
 		]);
-		const result = spawnSync('npx', [
-			'tsx',
+		const result = spawnSync('bun', [
 			tsKeyer,
 			'decrypt',
 			'-f',
@@ -183,13 +177,12 @@ describe('CLI Tests', () => {
 		);
 	});
 	it('Command encrypt help must be called', () => {
-		const resultCommon = spawnSync('npx', [
-			'tsx',
+		const resultCommon = spawnSync('bun', [
 			tsKeyer,
 			'encrypt',
 			'--help',
 		]);
-		const resultShort = spawnSync('npx', ['tsx', tsKeyer, 'encrypt', '-h']);
+		const resultShort = spawnSync('bun', [tsKeyer, 'encrypt', '-h']);
 		expect(resultCommon.stdout.toString()).toContain(
 			'Usage: keyer encrypt [options]'
 		);
@@ -198,13 +191,12 @@ describe('CLI Tests', () => {
 		);
 	});
 	it('Command decrypt help must be called', () => {
-		const resultCommon = spawnSync('npx', [
-			'tsx',
+		const resultCommon = spawnSync('bun', [
 			tsKeyer,
 			'decrypt',
 			'--help',
 		]);
-		const resultShort = spawnSync('npx', ['tsx', tsKeyer, 'decrypt', '-h']);
+		const resultShort = spawnSync('bun', [tsKeyer, 'decrypt', '-h']);
 		expect(resultCommon.stdout.toString()).toContain(
 			'Usage: keyer decrypt [options]'
 		);
@@ -213,8 +205,7 @@ describe('CLI Tests', () => {
 		);
 	});
 	it('Command encrypt must fail with invalid file', () => {
-		const result = spawnSync('npx', [
-			'tsx',
+		const result = spawnSync('bun', [
 			tsKeyer,
 			'encrypt',
 			'--file',
@@ -225,8 +216,7 @@ describe('CLI Tests', () => {
 		expect(result.stderr.toString()).toContain('ENOENT');
 	});
 	it('Command decrypt must fail with invalid file', () => {
-		const result = spawnSync('npx', [
-			'tsx',
+		const result = spawnSync('bun', [
 			tsKeyer,
 			'decrypt',
 			'--file',
@@ -238,11 +228,11 @@ describe('CLI Tests', () => {
 	});
 	it('Command encrypt/decrypt must fail without required options', () => {
 		createInputFile();
-		const encryptResult = spawnSync('npx', ['tsx', tsKeyer, 'encrypt']);
+		const encryptResult = spawnSync('bun', [tsKeyer, 'encrypt']);
 		expect(encryptResult.stderr.toString()).toContain(
 			'error: required option'
 		);
-		const decryptResult = spawnSync('npx', ['tsx', tsKeyer, 'decrypt']);
+		const decryptResult = spawnSync('bun', [tsKeyer, 'decrypt']);
 		expect(decryptResult.stderr.toString()).toContain(
 			'error: required option'
 		);

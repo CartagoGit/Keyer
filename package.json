@@ -4,14 +4,14 @@
 	"description": "Secret encrypter for keys, api-keys and envs",
 	"main": "src/index.ts",
 	"scripts": {
-		"keyer": "npx tsx src/keyer.ts",
-		"encrypt": "npx tsx src/encrypt.ts",
-		"decrypt": "npx tsx src/decrypt.ts",
-		"cli": "npx tsx src/keyer.ts --envfile='.env'",
+		"keyer": "bun src/keyer.ts",
+		"encrypt": "bun src/encrypt.ts",
+		"decrypt": "bun src/decrypt.ts",
+		"cli": "bun --envfile='.env' src/keyer.ts",
 		"test": "jest --runInBand",
 		"test:exit": "npm run test || exit 1",
 		"pack": "npm pack --pack-destination=./pack",
-		"create:cli": "npx tsc",
+		"create:cli": "bun x tsc",
 		"pack:online": "npm run test:exit && npm run create:cli && npm publish"
 	},
 	"keywords": [
